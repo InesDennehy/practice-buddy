@@ -13,7 +13,7 @@ class CreatePracticesessionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('practicesessions', function (Blueprint $table) {
+        Schema::create('practice_sessions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('piece_id');
             $table->integer('minutes');
@@ -29,6 +29,6 @@ class CreatePracticesessionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('practicesessions');
+        Schema::dropIfExists('practice_sessions');
     }
 }

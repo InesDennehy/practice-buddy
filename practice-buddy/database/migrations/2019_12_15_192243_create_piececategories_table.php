@@ -13,7 +13,7 @@ class CreatePiececategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('piececategories', function (Blueprint $table) {
+        Schema::create('piece_categories', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id');
             $table->string('name');
@@ -28,6 +28,6 @@ class CreatePiececategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('piececategories');
+        Schema::dropIfExists('piece_categories');
     }
 }
