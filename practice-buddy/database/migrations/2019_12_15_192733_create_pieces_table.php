@@ -15,7 +15,7 @@ class CreatePiecesTable extends Migration
     {
         Schema::create('pieces', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('piececategory_id');
+            $table->integer('category_id');
             $table->string('name');
             $table->string('note');
             $table->timestamps();

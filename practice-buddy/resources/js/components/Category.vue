@@ -3,16 +3,21 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{category_name}}</div>
-                    <div class="card-body">
-                        <div>Here goes some pieces</div>
-                        <div v-for="piece in initial_pieces" :key="piece">
-                            {{piece}}
+                    <div class="card-header modal-header">
+                        <h4 class="card-title m-0">{{cat.name}}</h4>
+                        <div class="ml-auto">
+                            <button v-on:click="remove" class="btn btn-outline-danger float-right">Delete</button>
                         </div>
-                        <button v-if=!isChanging v-on:click="addNew">Add piece +</button>
-                        <input  v-if=isChanging autofocus
+                    </div>
+                    <div class="card-body">
+                        <div v-for="(piece, index) in pieces" :key="piece.id">
+                            <piece :piece="piece" @remove="removePiece(index)"></piece>
+                        </div>
+                        <button class="btn btn-outline-secondary" v-if=!isChanging v-on:click="startChange">Add piece +</button>
+                        <input  maxlength="255" v-if=isChanging autofocus
                             v-on:keyup.enter="addSubmit"
                             v-on:keyup.esc="stopChange"
+                            @blur="stopChange"
                             v-model="newName"/>
                     </div>
                 </div>
@@ -22,37 +27,59 @@
 </template>
 
 <script>
+    import axios from "axios";
+
     export default {
         mounted(){
-            console.log('component mounted');
+            this.getPieces();
         },
         props: {
-            category_name: {
-                type:String,
+            cat: {
+                type:Object,
                 required:true,
-            },
-            initial_pieces: {
-                type: Array,
-                required: true,
             }
         },
         data(){
             return{
                 isChanging: false,
                 newName: "",
+                pieces: [],
             }
         },
         methods:{
-            addNew: function(event){
-                this.isChanging = true;
-            },
             addSubmit: function(event){
-                this.initial_pieces.push(this.newName);
-                this.newName = "";
+                if(this.newName != ""){
+                    axios.post("/pieces", {
+                        piece_name: this.newName,
+                        category: this.cat,})
+                        .then((response)=>{
+                            var piece = response.data.piece;
+                            this.pieces.push(piece);
+                        });
+                    this.newName = "";
+                }
+            },
+            startChange: function(event){
+                this.isChanging = true;
             },
             stopChange: function(event){
                 this.isChanging = false;
             },
-        }
+            getPieces: function(){
+                axios.get("/pieces/"+this.cat.id).then((response)=>{
+                    this.pieces = response.data.pieces;
+                });
+            },
+            removePiece: function(index){
+                this.pieces.splice(index, 1);
+            },
+            remove: function(event){
+                axios.delete("/categories/"+this.cat.id).then((response) =>{
+                    if(response.data.result == 'ok'){
+                        this.$emit('remove');
+                    }
+                });
+            }
+        },
     }
 </script>

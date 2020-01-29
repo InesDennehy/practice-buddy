@@ -23,7 +23,6 @@ class HomeController extends Controller
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index(){
-        $categories = Auth::user()->pieceCategories;
-        return view('home', ['categories' => $categories]);
+        return view('home');
     }
 }

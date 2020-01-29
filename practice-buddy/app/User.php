@@ -37,7 +37,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function pieceCategories(){
-        return $this->hasMany(PieceCategory::class);
+    public function categories(){
+        return $this->hasMany(Category::class);
     }
 }
