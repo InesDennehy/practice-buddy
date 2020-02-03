@@ -1,0 +1,32 @@
+.x-btn{
+    background-color: darkgrey;
+    color: white;
+    border-radius: 50%;
+    border: none;
+    align-self: right;
+    width: auto;
+    height: auto;
+    font-size: x-small;
+    line-height: auto;
+    margin: auto;
+    margin-right: 0px;
+}
+.x-btn:hover{
+    background-color: grey;
+}
+
+.piece-name{
+    width: 95%
+}
+
+.piece{
+    margin-top: 7px;
+    margin-bottom: 7px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}

@@ -1,7 +1,7 @@
 <template>
-    <div @mouseover="hover = true" @mouseleave="hover = false">
-        <span>{{piece.name}}</span>
-        <span v-if=hover v-on:click="remove" class="float-right align-middle">x</span>
+    <div @mouseover="hover = true" @mouseleave="hover = false" v-bind:class="{ active: hover }" class="piece">
+        <span class="piece-name">{{piece.name}}</span>
+        <button v-on:click="remove" class="float-right x-btn">x</button>
     </div>
 </template>
 

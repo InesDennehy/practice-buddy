@@ -1725,8 +1725,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
@@ -37346,13 +37344,15 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header modal-header" }, [
-            _c("h4", { staticClass: "card-title m-0" }, [
-              _vm._v(_vm._s(_vm.cat.name))
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ml-auto" }, [
+        _c("div", { staticClass: "card category" }, [
+          _c(
+            "div",
+            { staticClass: "card-header modal-header category-header" },
+            [
+              _c("h4", { staticClass: "card-title m-0 category-name" }, [
+                _vm._v(_vm._s(_vm.cat.name))
+              ]),
+              _vm._v(" "),
               _c(
                 "button",
                 {
@@ -37361,8 +37361,8 @@ var render = function() {
                 },
                 [_vm._v("Delete")]
               )
-            ])
-          ]),
+            ]
+          ),
           _vm._v(" "),
           _c(
             "div",
@@ -37658,6 +37658,8 @@ var render = function() {
   return _c(
     "div",
     {
+      staticClass: "piece",
+      class: { active: _vm.hover },
       on: {
         mouseover: function($event) {
           _vm.hover = true
@@ -37668,18 +37670,15 @@ var render = function() {
       }
     },
     [
-      _c("span", [_vm._v(_vm._s(_vm.piece.name))]),
+      _c("span", { staticClass: "piece-name" }, [
+        _vm._v(_vm._s(_vm.piece.name))
+      ]),
       _vm._v(" "),
-      _vm.hover
-        ? _c(
-            "span",
-            {
-              staticClass: "float-right align-middle",
-              on: { click: _vm.remove }
-            },
-            [_vm._v("x")]
-          )
-        : _vm._e()
+      _c(
+        "button",
+        { staticClass: "float-right x-btn", on: { click: _vm.remove } },
+        [_vm._v("x")]
+      )
     ]
   )
 }

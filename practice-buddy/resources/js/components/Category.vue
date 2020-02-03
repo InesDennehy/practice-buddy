@@ -2,12 +2,10 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header modal-header">
-                        <h4 class="card-title m-0">{{cat.name}}</h4>
-                        <div class="ml-auto">
-                            <button v-on:click="remove" class="btn btn-outline-danger float-right">Delete</button>
-                        </div>
+                <div class="card category">
+                    <div class="card-header modal-header category-header">
+                        <h4 class="card-title m-0 category-name">{{cat.name}}</h4>
+                        <button v-on:click="remove" class="btn btn-outline-danger float-right">Delete</button>
                     </div>
                     <div class="card-body">
                         <div v-for="(piece, index) in pieces" :key="piece.id">

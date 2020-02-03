@@ -1,0 +1,17 @@
+.category-name{
+    width: 80%
+}
+
+.category-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+.category{
+    margin-bottom: 30px;
+}
