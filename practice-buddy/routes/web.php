@@ -12,6 +12,7 @@
 */
 
 use App\Http\Controllers\CategoriesController;
+use GuzzleHttp\Middleware;
 
 Route::get('/', function () {
     if(Auth::user())
@@ -30,3 +31,6 @@ Route::delete('/categories/{id}', 'CategoriesController@delete')->middleware('au
 Route::post('/pieces', 'PiecesController@store')->middleware('auth');
 Route::get('/pieces/{id}', 'PiecesController@index')->middleware('auth');
 Route::delete('/pieces/{id}', 'PiecesController@delete')->middleware('auth');
+
+Route::post('/sessions', 'SessionsController@store')->middleware('auth');
+Route::delete('/sessions/{pieceid}', 'SessionsController@delete')->middleware('auth');

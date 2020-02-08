@@ -16,12 +16,12 @@
 }
 
 .piece-name{
-    width: 95%
+    width: 90%;
 }
 
 .piece{
-    margin-top: 7px;
-    margin-bottom: 7px;
+    padding: 5px;
+    border-radius: 5px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -29,4 +29,22 @@
     -ms-hyphens: auto;
     -moz-hyphens: auto;
     hyphens: auto;
+}
+
+.active{
+    background-color: #eeeeee;
+}
+
+.done-checkbox{
+    border: none;
+    width: auto;
+    height: auto;
+    line-height: auto;
+    margin: auto;
+    margin-right: 5px;
+}
+
+.crossedout{
+    text-decoration: line-through;
+    color: grey;
 }

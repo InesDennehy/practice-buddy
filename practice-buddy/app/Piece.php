@@ -17,6 +17,6 @@ class Piece extends Model
     }
 
     public function sessions(){
-        return $this->hasMany(PracticeSession::class);
+        return $this->hasMany(Session::class);
     }
 }

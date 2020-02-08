@@ -4,7 +4,7 @@
             <category :cat="category" @remove="removeCategory(index)"></category>
         </div>
         <div class="row justify-content-center">
-            <button class="btn btn-outline-secondary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
+            <button class="btn btn-secondary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
             <div v-if="isChanging" class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-8">

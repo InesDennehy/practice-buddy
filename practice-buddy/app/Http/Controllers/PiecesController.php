@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Piece;
 use App\Category;
+use App\Session;
+use Illuminate\Support\Carbon;
 
 class PiecesController extends Controller
 {
@@ -13,7 +15,15 @@ class PiecesController extends Controller
         $category = Category::findOrFail($id);
         if($category->user_id == Auth::user()->id){
             $pieces = Piece::where('category_id', $id)->get();
-            return response()->json(['pieces' => $pieces]);
+            $sessions = [];
+            foreach($pieces as $piece){
+                $session = Session::whereDate('created_at', Carbon::today())->where('piece_id', $piece->id)->get()->first();
+                if($session != null)
+                    $sessions[$piece->id] = $session->id;
+                else
+                    $sessions[$piece->id] = null;
+            }
+            return response()->json(['pieces' => $pieces, 'sessions' => $sessions]);
         }
         return;
     }

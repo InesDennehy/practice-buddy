@@ -1740,7 +1740,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isChanging: false,
       newName: "",
-      pieces: []
+      pieces: [],
+      sessions: []
     };
   },
   methods: {
@@ -1769,6 +1770,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("/pieces/" + this.cat.id).then(function (response) {
+        _this2.sessions = response.data.sessions;
         _this2.pieces = response.data.pieces;
       });
     },
@@ -1921,17 +1923,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {},
   props: {
     piece: {
       type: Object,
       required: true
+    },
+    initial_session: {
+      required: true
     }
   },
   data: function data() {
     return {
-      hover: false
+      hover: false,
+      checked: this.initial_session != null,
+      session: this.initial_session
     };
   },
   methods: {
@@ -1943,6 +1951,28 @@ __webpack_require__.r(__webpack_exports__);
           _this.$emit('remove');
         }
       });
+    },
+    done: function done(event) {
+      var _this2 = this;
+
+      if (this.checked) {
+        axios["delete"]("/sessions/" + this.session).then(function (response) {
+          if (response.data.result == 'OK') {
+            _this2.checked = false;
+          }
+        });
+      } else {
+        axios.post("/sessions", {
+          piece: this.piece.id
+        }).then(function (response) {
+          if (response.data.result == 'OK') {
+            _this2.checked = true;
+            _this2.session = response.data.session;
+          }
+        });
+      }
+
+      ;
     }
   }
 });
@@ -37344,14 +37374,18 @@ var render = function() {
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "card category" }, [
+        _c("div", { staticClass: "card category border-0 shadow" }, [
           _c(
             "div",
             { staticClass: "card-header modal-header category-header" },
             [
-              _c("h4", { staticClass: "card-title m-0 category-name" }, [
-                _vm._v(_vm._s(_vm.cat.name))
-              ]),
+              _c(
+                "h3",
+                {
+                  staticClass: "card-title m-0 category-name font-weight-light"
+                },
+                [_vm._v(_vm._s(_vm.cat.name))]
+              ),
               _vm._v(" "),
               _c(
                 "button",
@@ -37374,7 +37408,10 @@ var render = function() {
                   { key: piece.id },
                   [
                     _c("piece", {
-                      attrs: { piece: piece },
+                      attrs: {
+                        piece: piece,
+                        initial_session: _vm.sessions[piece.id]
+                      },
                       on: {
                         remove: function($event) {
                           return _vm.removePiece(index)
@@ -37390,7 +37427,7 @@ var render = function() {
                 ? _c(
                     "button",
                     {
-                      staticClass: "btn btn-outline-secondary",
+                      staticClass: "btn btn-outline-secondary add-piece-btn",
                       on: { click: _vm.startChange }
                     },
                     [_vm._v("Add piece +")]
@@ -37552,7 +37589,7 @@ var render = function() {
           ? _c(
               "button",
               {
-                staticClass: "btn btn-outline-secondary",
+                staticClass: "btn btn-secondary",
                 on: { click: _vm.startChange }
               },
               [_vm._v("Add new Category +")]
@@ -37670,9 +37707,53 @@ var render = function() {
       }
     },
     [
-      _c("span", { staticClass: "piece-name" }, [
-        _vm._v(_vm._s(_vm.piece.name))
-      ]),
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.checked,
+            expression: "checked"
+          }
+        ],
+        staticClass: "done-checkbox",
+        attrs: { type: "checkbox", id: "checkbox" + _vm.piece.id },
+        domProps: {
+          checked: Array.isArray(_vm.checked)
+            ? _vm._i(_vm.checked, null) > -1
+            : _vm.checked
+        },
+        on: {
+          click: _vm.done,
+          change: function($event) {
+            var $$a = _vm.checked,
+              $$el = $event.target,
+              $$c = $$el.checked ? true : false
+            if (Array.isArray($$a)) {
+              var $$v = null,
+                $$i = _vm._i($$a, $$v)
+              if ($$el.checked) {
+                $$i < 0 && (_vm.checked = $$a.concat([$$v]))
+              } else {
+                $$i > -1 &&
+                  (_vm.checked = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+              }
+            } else {
+              _vm.checked = $$c
+            }
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c(
+        "label",
+        {
+          staticClass: "piece-name lead",
+          class: { crossedout: _vm.checked },
+          attrs: { for: "checkbox" + _vm.piece.id }
+        },
+        [_vm._v(_vm._s(_vm.piece.name))]
+      ),
       _vm._v(" "),
       _c(
         "button",
