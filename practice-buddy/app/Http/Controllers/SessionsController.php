@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Illuminate\Support\Carbon;
+use Carbon\CarbonPeriod;
 use App\Piece;
 use App\Session;
+use Illuminate\Support\Facades\DB;
 
 class SessionsController extends Controller{
 
@@ -32,5 +34,23 @@ class SessionsController extends Controller{
         }
         return response()->json(['result' => 'error']);
     }
-    //
+
+    public function weekdata(){
+        $sessions = DB::table('sessions')
+            ->join('pieces', 'sessions.piece_id', '=', 'pieces.id')
+            ->join('categories', 'pieces.category_id', '=', 'categories.id')
+            ->select(DB::raw('DATE_FORMAT(sessions.created_at, "%d-%b-%Y") as created_at'), 'categories.user_id', 'categories.name as category_name', 'pieces.name as piece_name')
+            ->where('categories.user_id', Auth::user()->id)
+            ->whereBetween('sessions.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            ->get();
+        $period = CarbonPeriod::create(Carbon::now()->subDays(6), Carbon::now());
+        // Iterate over the period
+        $dates = [];
+        foreach ($period as $date) {
+            array_push($dates, $date->format('d-M-Y'));
+        }
+        // Convert the period to an array of dates
+
+        return response()->json(['data' => $sessions, 'days' => $dates]);
+    }
 }

@@ -1,3 +1,12 @@
 body{
     background-color: #F2F2F2;
+    width: 100%;
+}
+html{
+    right:0px;
+}
+
+html, body, #app{
+    width: 100%;
+    margin: 0px;
 }

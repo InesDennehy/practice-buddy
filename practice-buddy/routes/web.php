@@ -12,15 +12,14 @@
 */
 
 use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\SessionsController;
 use GuzzleHttp\Middleware;
 
 Route::get('/', function () {
     if(Auth::user())
         return redirect('/home');
-    return view('welcome');
+    return view('/welcome');
 });
-
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -29,8 +28,8 @@ Route::post('/categories', 'CategoriesController@store')->middleware('auth');
 Route::delete('/categories/{id}', 'CategoriesController@delete')->middleware('auth');
 
 Route::post('/pieces', 'PiecesController@store')->middleware('auth');
-Route::get('/pieces/{id}', 'PiecesController@index')->middleware('auth');
 Route::delete('/pieces/{id}', 'PiecesController@delete')->middleware('auth');
 
 Route::post('/sessions', 'SessionsController@store')->middleware('auth');
 Route::delete('/sessions/{pieceid}', 'SessionsController@delete')->middleware('auth');
+Route::get('/stats/week', 'SessionsController@weekdata')->middleware('auth');

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div v-for="(category,index) in categories" :key="category.id">
-            <category :cat="category" @remove="removeCategory(index)"></category>
+        <div v-for="(category,index) in categories" :key="index">
+            <category :name="category" :pieces="pieces(category)" @remove="removeCategory(index)"></category>
         </div>
         <div class="row justify-content-center">
             <button class="btn btn-secondary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
@@ -27,17 +27,30 @@
 
 <script>
     export default {
-        mounted() {
-            this.getCategories();
+        watch: {
+            data: function(newVal, oldVal) { // watch it
+                this.categories = [...new Set(this.data.map(item => item.category_name))];
+            }
+        },
+        props:{
+            data: {
+                type: Array,
+                required: true,
+            }
         },
         data(){
             return{
                 isChanging: false,
                 newName: "",
-                categories: this.initial_categories,
+                categories: [],
             }
         },
         methods: {
+            pieces: function(name){
+                return this.data.filter(function(piece) {
+                        return piece.category_name == name;
+                    });
+            },
             addSubmit: function(event){
                 if(this.newName != ""){
                     axios.post("/categories", {category_name: this.newName}).then((response)=>{
@@ -52,11 +65,6 @@
             },
             stopChange: function(event){
                 this.isChanging = false;
-            },
-            getCategories: function(){
-                axios.get("/categories").then((response)=>{
-                    this.categories = response.data.categories;
-                });
             },
             removeCategory: function(index){
                 this.categories.splice(index, 1);

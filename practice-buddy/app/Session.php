@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+use Illuminate\Support\Carbon;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,5 +12,6 @@ class Session extends Model
     public function piece(){
         return $this->belongsTo(Piece::class);
     }
+
     //
 }

@@ -1,0 +1,186 @@
+html {
+    scroll-behavior: smooth;
+}
+html, body, #app{
+    height: 100%;
+}
+
+/* For width smaller than 400px: */
+.top-panel{
+    background-image: url('/images/Background-welcome-small.png'), radial-gradient(circle, white, #d7d7d7);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* For width 400px and larger: */
+@media only screen and (min-width: 400px) {
+    .top-panel {
+        background-image: url('/images/Background-welcome.png'), radial-gradient(circle, white, #d7d7d7);
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+}
+
+.bottom-panel{
+    background-color: darkgrey;
+    margin: 0px;
+}
+
+.button {
+    position: relative;
+    display:block;
+    height: 45px;
+    width: 180px;
+    margin: 10px 7px;
+    padding: 5px 5px;
+    padding-bottom: 18px;
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 2px;
+    color: #222222;
+    border: 2px #222222 solid;
+    border-radius: 4px;
+    text-transform: uppercase;
+    line-height: 100%;
+    outline: 0;
+    overflow:hidden;
+    background: none;
+    z-index: 1;
+    cursor: pointer;
+    transition:         0.08s ease-in;
+    -o-transition:      0.08s ease-in;
+    -ms-transition:     0.08s ease-in;
+    -moz-transition:    0.08s ease-in;
+    -webkit-transition: 0.08s ease-in;
+  }
+
+  .slide:after{
+    content:"Learn More";
+    position:absolute;
+    width:100%;
+    height:100%;
+    left:0;
+    text-align:center;
+    -webkit-transition: all 400ms cubic-bezier(0.680, -0.550, 0.265, 1.550);
+  }
+
+  .slide:before {
+    content:"Get Started";
+    height:100%;
+    width:100%;
+    position:absolute;
+    color:#112222;
+    left:-100%;
+    opacity: 0;
+    -webkit-transition: all 500ms cubic-bezier(0.680, -0.550, 0.265, 1.550);
+  }
+
+  .slide:hover{
+    background-color:#222222;
+  }
+
+  .slide:hover:before{
+    left:0;
+    opacity:1;
+    color: #d7d7d7;
+  }
+  .slide:hover:after{
+    left:100%;
+    opacity:0;
+  }
+  .center{
+	display: block;
+	margin: auto;
+}
+
+.login-div{
+    background-color: #222222;
+    padding: 5%;
+}
+.login-card{
+    color: #404040;
+}
+.login-card > .card-header{
+    background-color: #595959;
+    color: #f2f2f2;
+}
+.login-card > .card-body{
+    background-color: #F2F2F2;
+}
+.login-card .btn-primary{
+    background-color: #595959;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
+    text-align: center;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+.login-card .btn-primary span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.login-card .btn-primary span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.login-card .btn-primary:hover span {
+    padding-right: 25px;
+}
+
+.login-card .btn-primary:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.register-div{
+    background-color: #F2F2F2;
+    padding: 5%;
+}
+.register-card{
+    color: #F2F2F2;
+}
+.register-card > .card-header{
+    background-color: #404040;
+}
+.register-card > .card-body{
+    background-color: #595959;
+}
+.register-card .btn-primary{
+    background-color: #333333;
+    border: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 4px;
+    text-align: center;
+    transition: all 0.5s;
+    cursor: pointer;
+}
+.register-card .btn-primary span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+.register-card .btn-primary span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+.register-card .btn-primary:hover span {
+    padding-right: 25px;
+}
+.register-card .btn-primary:hover span:after {
+    opacity: 1;
+    right: 0;
+}
