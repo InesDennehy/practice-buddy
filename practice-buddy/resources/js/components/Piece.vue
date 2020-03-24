@@ -9,8 +9,8 @@
 <script>
     export default {
         watch:{
-            initial_session: function(newVal, oldVal){
-                this.checked = this.initial_session != null;
+            session: function(newVal, oldVal){
+                this.checked = newVal != null;
             }
         },
         props: {
@@ -21,15 +21,14 @@
             piece_id: {
                 required: true,
             },
-            initial_session: {
+            session: {
                 required:true,
             }
         },
         data(){
             return{
                 hover : false,
-                checked: this.initial_session != null,
-                session: this.initial_session,
+                checked: this.session != null,
             }
         },
         methods: {
@@ -44,14 +43,13 @@
                 if(this.checked){
                     axios.delete("/sessions/"+this.session).then((response) =>{
                         if(response.data.result == 'OK'){
-                            this.checked = false;
+                            this.$emit('changeSessionStatus', this.piece_id, null);
                         }
                     });
                 }else{
                     axios.post("/sessions", {piece: this.piece_id}).then((response)=>{
                         if(response.data.result == 'OK'){
-                            this.checked = true;
-                            this.session = response.data.session;
+                            this.$emit('changeSessionStatus', this.piece_id, response.data.session);
                         }
                     });
                 };

@@ -9,7 +9,7 @@
                     </div>
                     <div class="card-body">
                         <div v-for="(piece, index) in pieces" :key="index">
-                            <piece :name="piece.piece_name" :piece_id="piece.piece_id" :initial_session="piece.session_id" @remove="removePiece(index)"></piece>
+                            <piece :name="piece.piece_name" :piece_id="piece.piece_id" v-bind:session="piece.session_id" @remove="removePiece(index)" @changeSessionStatus="changeSessionStatus"></piece>
                         </div>
                         <button class="btn btn-outline-secondary add-piece-btn" v-if=!isChanging v-on:click="startChange">Add piece +</button>
                         <input  maxlength="255" v-if=isChanging autofocus
@@ -75,6 +75,9 @@
                         this.$emit('remove');
                     }
                 });
+            },
+            changeSessionStatus: function(pieceid, session){
+                this.$emit('changeSessionStatus', pieceid, session);
             }
         },
     }

@@ -18,8 +18,10 @@ use GuzzleHttp\Middleware;
 Route::get('/', function () {
     if(Auth::user())
         return redirect('/home');
-    return view('/welcome');
-});
+    return view('welcome');
+})->name('welcome');
+
+Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 

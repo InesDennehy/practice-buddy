@@ -39,7 +39,7 @@
         </nav>
 
         <main class="py-4">
-            <Home v-show="active == 'home'" :data="data"></Home>
+            <Home v-show="active == 'home'" v-bind:data="data" @changeSessionStatus="changeSessionStatus"></Home>
             <Stats v-if="active == 'stats'" :all_pieces="piece_names"></Stats>
         </main>
     </div>
@@ -77,6 +77,10 @@
             }
         },
         methods: {
+            changeSessionStatus: function(pieceid, session){
+                this.data.find(object => object.piece_id == pieceid).session_id = session;
+                localStorage.data = JSON.stringify(this.data);
+            },
             activateHome: function(event){
                 event.preventDefault();
                 this.active = "home";

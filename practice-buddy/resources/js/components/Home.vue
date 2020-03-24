@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-for="(category,index) in categories" :key="index">
-            <category :name="category" :pieces="pieces(category)" @remove="removeCategory(index)"></category>
+            <category :name="category" v-bind:pieces="pieces(category)" @remove="removeCategory(index)" @changeSessionStatus="changeSessionStatus"></category>
         </div>
         <div class="row justify-content-center">
             <button class="btn btn-secondary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
@@ -68,6 +68,9 @@
             },
             removeCategory: function(index){
                 this.categories.splice(index, 1);
+            },
+            changeSessionStatus: function(pieceid, session){
+                this.$emit('changeSessionStatus', pieceid, session);
             }
         }
     }

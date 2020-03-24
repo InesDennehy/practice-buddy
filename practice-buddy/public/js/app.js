@@ -1778,6 +1778,9 @@ __webpack_require__.r(__webpack_exports__);
           _this2.$emit('remove');
         }
       });
+    },
+    changeSessionStatus: function changeSessionStatus(pieceid, session) {
+      this.$emit('changeSessionStatus', pieceid, session);
     }
   }
 });
@@ -1911,6 +1914,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     removeCategory: function removeCategory(index) {
       this.categories.splice(index, 1);
+    },
+    changeSessionStatus: function changeSessionStatus(pieceid, session) {
+      this.$emit('changeSessionStatus', pieceid, session);
     }
   }
 });
@@ -1959,8 +1965,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   watch: {
-    initial_session: function initial_session(newVal, oldVal) {
-      this.checked = this.initial_session != null;
+    session: function session(newVal, oldVal) {
+      this.checked = newVal != null;
     }
   },
   props: {
@@ -1971,15 +1977,14 @@ __webpack_require__.r(__webpack_exports__);
     piece_id: {
       required: true
     },
-    initial_session: {
+    session: {
       required: true
     }
   },
   data: function data() {
     return {
       hover: false,
-      checked: this.initial_session != null,
-      session: this.initial_session
+      checked: this.session != null
     };
   },
   methods: {
@@ -1998,7 +2003,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.checked) {
         axios["delete"]("/sessions/" + this.session).then(function (response) {
           if (response.data.result == 'OK') {
-            _this2.checked = false;
+            _this2.$emit('changeSessionStatus', _this2.piece_id, null);
           }
         });
       } else {
@@ -2006,8 +2011,7 @@ __webpack_require__.r(__webpack_exports__);
           piece: this.piece_id
         }).then(function (response) {
           if (response.data.result == 'OK') {
-            _this2.checked = true;
-            _this2.session = response.data.session;
+            _this2.$emit('changeSessionStatus', _this2.piece_id, response.data.session);
           }
         });
       }
@@ -2153,25 +2157,19 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     getData: function getData() {
       var _this = this;
 
-      console.log(localStorage.stats_data != null && localStorage.days != null);
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/stats/week").then(function (response) {
+        _this.data = response.data.data;
+        _this.days = response.data.days;
+        localStorage.stats_data = JSON.stringify(_this.data);
+        localStorage.days = JSON.stringify(_this.days);
+        _this.pieces = _toConsumableArray(new Set(_this.data.map(function (session) {
+          return session.piece_name;
+        })));
 
-      if (localStorage.stats_data != null && localStorage.days != null) {
-        this.data = JSON.parse(localStorage.stats_data);
-        this.days = JSON.parse(localStorage.days);
-      } else {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/stats/week").then(function (response) {
-          _this.data = response.data.data;
-          _this.days = response.data.days;
-          localStorage.stats_data = JSON.stringify(_this.data);
-          localStorage.days = JSON.stringify(_this.days);
-        });
-      }
+        _this.updateTimesPerPieceData();
 
-      this.pieces = _toConsumableArray(new Set(this.data.map(function (session) {
-        return session.piece_name;
-      })));
-      this.updateTimesPerPieceData();
-      this.updateTimesPerDayData();
+        _this.updateTimesPerDayData();
+      });
     },
     updateTimesPerPieceData: function updateTimesPerPieceData() {
       this.avgPiecesPD = this.data.length / this.days.length;
@@ -2320,6 +2318,12 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     };
   },
   methods: {
+    changeSessionStatus: function changeSessionStatus(pieceid, session) {
+      this.data.find(function (object) {
+        return object.piece_id == pieceid;
+      }).session_id = session;
+      localStorage.data = JSON.stringify(this.data);
+    },
     activateHome: function activateHome(event) {
       event.preventDefault();
       this.active = "home";
@@ -71817,12 +71821,13 @@ var render = function() {
                       attrs: {
                         name: piece.piece_name,
                         piece_id: piece.piece_id,
-                        initial_session: piece.session_id
+                        session: piece.session_id
                       },
                       on: {
                         remove: function($event) {
                           return _vm.removePiece(index)
-                        }
+                        },
+                        changeSessionStatus: _vm.changeSessionStatus
                       }
                     })
                   ],
@@ -71983,7 +71988,8 @@ var render = function() {
               on: {
                 remove: function($event) {
                   return _vm.removeCategory(index)
-                }
+                },
+                changeSessionStatus: _vm.changeSessionStatus
               }
             })
           ],
@@ -72445,7 +72451,8 @@ var render = function() {
               expression: "active == 'home'"
             }
           ],
-          attrs: { data: _vm.data }
+          attrs: { data: _vm.data },
+          on: { changeSessionStatus: _vm.changeSessionStatus }
         }),
         _vm._v(" "),
         _vm.active == "stats"

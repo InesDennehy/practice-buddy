@@ -9,16 +9,6 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-
-</head>
-<body>
-    <div id="app">
-        @yield('content')
-    </div>
-
-
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -27,6 +17,16 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     @yield('styles')
+
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
+
+
+</head>
+<body>
+    <div id="app">
+        @yield('content')
+    </div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>

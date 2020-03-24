@@ -88,22 +88,15 @@
         },
         methods: {
             getData: function(){
-                console.log(localStorage.stats_data != null && localStorage.days != null);
-                if(localStorage.stats_data != null && localStorage.days != null){
-                    this.data = JSON.parse(localStorage.stats_data);
-                    this.days = JSON.parse(localStorage.days);
-                }
-                else{
-                    axios.get("/stats/week").then((response) =>{
-                        this.data = response.data.data;
-                        this.days = response.data.days;
-                        localStorage.stats_data = JSON.stringify(this.data);
-                        localStorage.days = JSON.stringify(this.days);
-                    });
-                }
-                this.pieces = [...new Set(this.data.map(session => session.piece_name))];
-                this.updateTimesPerPieceData();
-                this.updateTimesPerDayData();
+                axios.get("/stats/week").then((response) =>{
+                    this.data = response.data.data;
+                    this.days = response.data.days;
+                    localStorage.stats_data = JSON.stringify(this.data);
+                    localStorage.days = JSON.stringify(this.days);
+                    this.pieces = [...new Set(this.data.map(session => session.piece_name))];
+                    this.updateTimesPerPieceData();
+                    this.updateTimesPerDayData();
+                });
             },
             updateTimesPerPieceData: function(){
                 this.avgPiecesPD = this.data.length/this.days.length;
