@@ -39,7 +39,9 @@
         </nav>
 
         <main class="py-4">
-            <Home v-show="active == 'home'" v-bind:data="data" @changeSessionStatus="changeSessionStatus"></Home>
+            <Home v-show="active == 'home'" v-bind:data="data"
+                @changeSessionStatus="changeSessionStatus"
+                @addPiece="addPiece"></Home>
             <Stats v-if="active == 'stats'" :all_pieces="piece_names"></Stats>
         </main>
     </div>
@@ -48,15 +50,14 @@
 <script>
     export default {
         mounted() {
-            if(localStorage.data)
-                this.data = JSON.parse(localStorage.data);
-            else
-                axios.get("/categories").then((response)=>{
-                    this.data = response.data.data;
-                    localStorage.data = JSON.stringify(this.data);
-                });
-
-            this.piece_names = [...new Set(this.data.map(item => item.piece_name))];
+            axios.get("/categories").then((response)=>{
+                this.data = response.data.data;
+            });
+        },
+        watch: {
+            data: function(newVal, oldVal) { // watch it
+                this.piece_names = [...new Set(this.data.map(item => item.piece_name))];
+            }
         },
         props:{
             username: {
@@ -79,7 +80,9 @@
         methods: {
             changeSessionStatus: function(pieceid, session){
                 this.data.find(object => object.piece_id == pieceid).session_id = session;
-                localStorage.data = JSON.stringify(this.data);
+            },
+            addPiece: function(piece){
+                this.data.push(piece);
             },
             activateHome: function(event){
                 event.preventDefault();

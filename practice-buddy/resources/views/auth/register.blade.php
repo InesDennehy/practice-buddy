@@ -54,7 +54,7 @@
                             <label for="register-password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="register-password-confirm" type="register-password" class="form-control" name="register-password_confirmation" required>
+                                <input id="register-password-confirm" type="password" class="form-control" name="register-password_confirmation" required>
                             </div>
                         </div>
 

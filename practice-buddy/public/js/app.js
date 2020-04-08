@@ -1752,11 +1752,14 @@ __webpack_require__.r(__webpack_exports__);
       if (this.newName != "") {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/pieces", {
           piece_name: this.newName,
-          category: this.cat
+          category: this.name
         }).then(function (response) {
-          var piece = response.data.piece;
-
-          _this.pieces.push(piece);
+          _this.$emit('addPiece', {
+            category_name: _this.name,
+            piece_id: response.data.piece.id,
+            piece_name: response.data.piece.name,
+            session_id: null
+          });
         });
         this.newName = "";
       }
@@ -1864,6 +1867,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   watch: {
     data: function data(newVal, oldVal) {
@@ -1899,11 +1905,19 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         axios.post("/categories", {
           category_name: this.newName
         }).then(function (response) {
-          var category = response.data.category;
+          if (response.data.status == 'OK') {
+            _this.categories.push(_this.newName);
 
-          _this.categories.push(category);
+            _this.$emit('addPiece', {
+              category_name: _this.newName,
+              piece_id: null,
+              piece_name: null,
+              session_id: null
+            });
+          }
+
+          _this.newName = "";
         });
-        this.newName = "";
       }
     },
     startChange: function startChange(event) {
@@ -1917,6 +1931,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     },
     changeSessionStatus: function changeSessionStatus(pieceid, session) {
       this.$emit('changeSessionStatus', pieceid, session);
+    },
+    addPiece: function addPiece(piece) {
+      this.$emit('addPiece', piece);
     }
   }
 });
@@ -2160,8 +2177,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/stats/week").then(function (response) {
         _this.data = response.data.data;
         _this.days = response.data.days;
-        localStorage.stats_data = JSON.stringify(_this.data);
-        localStorage.days = JSON.stringify(_this.days);
         _this.pieces = _toConsumableArray(new Set(_this.data.map(function (session) {
           return session.piece_name;
         })));
@@ -2172,7 +2187,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       });
     },
     updateTimesPerPieceData: function updateTimesPerPieceData() {
-      this.avgPiecesPD = this.data.length / this.days.length;
       this.times_per_piece_data = {
         labels: this.all_pieces,
         datasets: [{
@@ -2187,6 +2201,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     updateTimesPerDayData: function updateTimesPerDayData() {
       var _this2 = this;
 
+      this.avgPiecesPD = this.data.length / this.days.length;
       var data_days_count = [];
       this.days.forEach(function (date) {
         var count = _this2.data.reduce(function (n, session) {
@@ -2288,17 +2303,23 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     var _this = this;
 
-    if (localStorage.data) this.data = JSON.parse(localStorage.data);else axios.get("/categories").then(function (response) {
+    axios.get("/categories").then(function (response) {
       _this.data = response.data.data;
-      localStorage.data = JSON.stringify(_this.data);
     });
-    this.piece_names = _toConsumableArray(new Set(this.data.map(function (item) {
-      return item.piece_name;
-    })));
+  },
+  watch: {
+    data: function data(newVal, oldVal) {
+      // watch it
+      this.piece_names = _toConsumableArray(new Set(this.data.map(function (item) {
+        return item.piece_name;
+      })));
+    }
   },
   props: {
     username: {
@@ -2322,7 +2343,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       this.data.find(function (object) {
         return object.piece_id == pieceid;
       }).session_id = session;
-      localStorage.data = JSON.stringify(this.data);
+    },
+    addPiece: function addPiece(piece) {
+      this.data.push(piece);
     },
     activateHome: function activateHome(event) {
       event.preventDefault();
@@ -71817,19 +71840,21 @@ var render = function() {
                   "div",
                   { key: index },
                   [
-                    _c("piece", {
-                      attrs: {
-                        name: piece.piece_name,
-                        piece_id: piece.piece_id,
-                        session: piece.session_id
-                      },
-                      on: {
-                        remove: function($event) {
-                          return _vm.removePiece(index)
-                        },
-                        changeSessionStatus: _vm.changeSessionStatus
-                      }
-                    })
+                    piece.piece_id != null
+                      ? _c("piece", {
+                          attrs: {
+                            name: piece.piece_name,
+                            piece_id: piece.piece_id,
+                            session: piece.session_id
+                          },
+                          on: {
+                            remove: function($event) {
+                              return _vm.removePiece(index)
+                            },
+                            changeSessionStatus: _vm.changeSessionStatus
+                          }
+                        })
+                      : _vm._e()
                   ],
                   1
                 )
@@ -71989,7 +72014,8 @@ var render = function() {
                 remove: function($event) {
                   return _vm.removeCategory(index)
                 },
-                changeSessionStatus: _vm.changeSessionStatus
+                changeSessionStatus: _vm.changeSessionStatus,
+                addPiece: _vm.addPiece
               }
             })
           ],
@@ -72258,7 +72284,7 @@ var render = function() {
                       },
                       ticks: {
                         beginAtZero: true,
-                        max: 7,
+                        max: _vm.days.length,
                         min: -1
                       }
                     },
@@ -72452,7 +72478,10 @@ var render = function() {
             }
           ],
           attrs: { data: _vm.data },
-          on: { changeSessionStatus: _vm.changeSessionStatus }
+          on: {
+            changeSessionStatus: _vm.changeSessionStatus,
+            addPiece: _vm.addPiece
+          }
         }),
         _vm._v(" "),
         _vm.active == "stats"

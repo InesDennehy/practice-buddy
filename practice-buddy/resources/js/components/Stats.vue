@@ -41,7 +41,7 @@
                                     },
                                     ticks: {
                                         beginAtZero: true,
-                                        max: 7,
+                                        max: days.length,
                                         min: -1,
                                     }
                                 },
@@ -91,15 +91,12 @@
                 axios.get("/stats/week").then((response) =>{
                     this.data = response.data.data;
                     this.days = response.data.days;
-                    localStorage.stats_data = JSON.stringify(this.data);
-                    localStorage.days = JSON.stringify(this.days);
                     this.pieces = [...new Set(this.data.map(session => session.piece_name))];
                     this.updateTimesPerPieceData();
                     this.updateTimesPerDayData();
                 });
             },
             updateTimesPerPieceData: function(){
-                this.avgPiecesPD = this.data.length/this.days.length;
                 this.times_per_piece_data = {
                     labels: this.all_pieces,
                     datasets: [{
@@ -116,6 +113,7 @@
                 }
             },
             updateTimesPerDayData: function(){
+                this.avgPiecesPD = this.data.length/this.days.length;
                 var data_days_count = [];
                 this.days.forEach(date => {
                     var count = this.data.reduce((n, session) => n + (session.created_at == date), 0);

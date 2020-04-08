@@ -8,6 +8,7 @@ use App\Piece;
 use App\Category;
 use App\Session;
 use Illuminate\Support\Carbon;
+use SebastianBergmann\Environment\Console;
 
 class PiecesController extends Controller
 {
@@ -15,11 +16,12 @@ class PiecesController extends Controller
     public function store(){
         request()->validate([
             'piece_name' => 'required',
-            'category' => 'required'
+            'category' => 'required',
         ]);
-        if(request('category')['user_id'] == Auth::user()->id){
+        $category = Category::where([['name', request('category')], ['user_id', Auth::user()->id]])->get()->first();
+        if($category != null){
             $piece = Piece::create([
-                'category_id' => request('category')['id'],
+                'category_id' => $category->id,
                 'name' => request('piece_name'),
                 'note' => "",
             ]);

@@ -7,13 +7,14 @@ use App\Category;
 use App\Session;
 use Illuminate\Support\Carbon;
 use Auth;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 
 class CategoriesController extends Controller
 {
     public function index(){
         $data = DB::table('categories')
-            ->join('pieces', 'categories.id', '=', 'pieces.category_id')
+            ->leftJoin('pieces', 'categories.id', '=', 'pieces.category_id')
             ->leftJoin('sessions', function($join) {
                 $join->on('sessions.piece_id', '=', 'pieces.id')
                 ->whereDate('sessions.created_at','=', Carbon::today());
@@ -26,13 +27,13 @@ class CategoriesController extends Controller
 
     public function store(){
         request()->validate([
-            'category_name' => 'required',
+            'category_name' => 'required', Rule::unique('categories', 'name')->where('user_id', Auth::user()->id),
         ]);
         $category = Category::create([
             'name' => request('category_name'),
             'user_id' => Auth::user()->id,
         ]);
-        return response()->json(['category' => $category]);
+        return response()->json(['status' => 'OK']);
     }
 
     public function delete($id){

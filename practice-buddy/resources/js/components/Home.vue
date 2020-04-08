@@ -1,7 +1,10 @@
 <template>
     <div>
         <div v-for="(category,index) in categories" :key="index">
-            <category :name="category" v-bind:pieces="pieces(category)" @remove="removeCategory(index)" @changeSessionStatus="changeSessionStatus"></category>
+            <category :name="category" v-bind:pieces="pieces(category)"
+                @remove="removeCategory(index)"
+                @changeSessionStatus="changeSessionStatus"
+                @addPiece="addPiece"></category>
         </div>
         <div class="row justify-content-center">
             <button class="btn btn-secondary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
@@ -54,10 +57,15 @@
             addSubmit: function(event){
                 if(this.newName != ""){
                     axios.post("/categories", {category_name: this.newName}).then((response)=>{
-                        var category = response.data.category;
-                        this.categories.push(category);
+                        if(response.data.status == 'OK'){
+                            this.categories.push(this.newName);
+                            this.$emit('addPiece', {category_name: this.newName,
+                                piece_id: null,
+                                piece_name: null,
+                                session_id: null});
+                        }
+                        this.newName = "";
                     });
-                    this.newName = "";
                 }
             },
             startChange: function(event){
@@ -71,6 +79,9 @@
             },
             changeSessionStatus: function(pieceid, session){
                 this.$emit('changeSessionStatus', pieceid, session);
+            },
+            addPiece: function(piece){
+                this.$emit('addPiece', piece);
             }
         }
     }

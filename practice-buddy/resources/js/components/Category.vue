@@ -9,7 +9,7 @@
                     </div>
                     <div class="card-body">
                         <div v-for="(piece, index) in pieces" :key="index">
-                            <piece :name="piece.piece_name" :piece_id="piece.piece_id" v-bind:session="piece.session_id" @remove="removePiece(index)" @changeSessionStatus="changeSessionStatus"></piece>
+                            <piece v-if="piece.piece_id != null" :name="piece.piece_name" :piece_id="piece.piece_id" v-bind:session="piece.session_id" @remove="removePiece(index)" @changeSessionStatus="changeSessionStatus"></piece>
                         </div>
                         <button class="btn btn-outline-secondary add-piece-btn" v-if=!isChanging v-on:click="startChange">Add piece +</button>
                         <input  maxlength="255" v-if=isChanging autofocus
@@ -52,10 +52,12 @@
                 if(this.newName != ""){
                     axios.post("/pieces", {
                         piece_name: this.newName,
-                        category: this.cat,})
+                        category: this.name})
                         .then((response)=>{
-                            var piece = response.data.piece;
-                            this.pieces.push(piece);
+                            this.$emit('addPiece', {category_name: this.name,
+                                piece_id: response.data.piece.id,
+                                piece_name: response.data.piece.name,
+                                session_id: null});
                         });
                     this.newName = "";
                 }
