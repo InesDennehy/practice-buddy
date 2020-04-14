@@ -53,11 +53,14 @@
                 if(this.newName != ""){
                     axios.post("/pieces", {
                         piece_name: this.newName,
-                        category: this.name})
+                        category: this.category.name})
                         .then((response)=>{
-                            this.$emit('addPieces', [newName]);
+                            if(response.data.status == 'OK'){
+                                this.pieces.push({category_id: response.data.piece.category_id, id:response.data.piece.id, name:response.data.piece.name, session: null});
+                                this.$emit('addPieces', [response.data.piece.name]);
+                            }
+                            this.newName = "";
                         });
-                    this.newName = "";
                 }
             },
             startChange: function(event){
@@ -67,10 +70,12 @@
                 this.isChanging = false;
             },
             removePiece: function(index){
+                this.$emit('removePiece', this.pieces[index].name);
                 this.pieces.splice(index, 1);
+
             },
             remove: function(event){
-                axios.delete("/categories/"+this.cat.id).then((response) =>{
+                axios.delete("/categories/"+this.category.id).then((response) =>{
                     if(response.data.result == 'ok'){
                         this.$emit('remove');
                     }

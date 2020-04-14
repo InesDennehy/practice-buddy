@@ -25,7 +25,7 @@ class CategoriesController extends Controller
             'name' => request('category_name'),
             'user_id' => Auth::user()->id,
         ]);
-        return response()->json(['status' => 'OK']);
+        return response()->json(['status' => 'OK', 'category' => $category]);
     }
 
     public function delete($id){

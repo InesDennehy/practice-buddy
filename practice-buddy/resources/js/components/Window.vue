@@ -39,8 +39,8 @@
         </nav>
 
         <main class="py-4">
-            <Home v-show="active == 'home'" @addPieces="addPieces"></Home>
-            <Stats v-if="active == 'stats'" :all_pieces="piece_names"></Stats>
+            <Home v-show="active == 'home'" @addPieces="addPieces" @removePiece="removePiece"></Home>
+            <Stats v-if="active == 'stats'" v-bind:all_pieces="piece_names"></Stats>
         </main>
     </div>
 </template>
@@ -78,8 +78,10 @@
                 return;
             },
             addPieces: function(pieces){
-                console.log('recieved on window '+pieces);
                 this.piece_names = this.piece_names.concat(pieces);
+            },
+            removePiece: function(piece_name){
+                this.piece_names = this.piece_names.filter(piece => piece != piece_name);
             }
         }
     }

@@ -40,9 +40,10 @@ class PiecesController extends Controller
                 'name' => request('piece_name'),
                 'note' => "",
             ]);
-            return response()->json(['piece' => $piece]);
+
+            return response()->json(['status' => 'OK', 'piece' => $piece]);
         }
-        return;
+        return response()->json(['status' => 'unauthorized access or category non existant']);
     }
 
     public function delete($id){

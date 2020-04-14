@@ -11,11 +11,10 @@
                         <Line-Chart :chart-data="times_per_day_data"
                             :options="{
                                 scales: {
-                                    xAxes: [{
+                                    yAxes: [{
                                         ticks: {
-                                            beginAtZero: true,
                                             max: all_pieces.length,
-                                        },
+                                        }
                                     }]
                                 }
                             }">

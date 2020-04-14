@@ -1,7 +1,7 @@
 <template>
     <div>
         <div v-for="(category,index) in categories" :key="index">
-            <category :category="category" @remove="removeCategory(index)" @addPieces="addPieces"></category>
+            <category :category="category" @remove="removeCategory(index)" @addPieces="addPieces" @removePiece="removePiece"></category>
         </div>
         <div class="row justify-content-center">
             <button class="btn btn-secondary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
@@ -27,10 +27,10 @@
 
 <script>
     export default {
-        mounted(){/*
+        mounted(){
             axios.get("/categories").then((response) => {
                 this.categories = response.data.categories;
-            });*/
+            });
         },
         data(){
             return{
@@ -44,11 +44,7 @@
                 if(this.newName != ""){
                     axios.post("/categories", {category_name: this.newName}).then((response)=>{
                         if(response.data.status == 'OK'){
-                            this.categories.push(this.newName);
-                            this.$emit('addCategory', {category_name: this.newName,
-                                piece_id: null,
-                                piece_name: null,
-                                session_id: null});
+                            this.categories.push({id: response.data.category.id, name: response.data.category.name});
                         }
                         this.newName = "";
                     });
@@ -65,6 +61,9 @@
             },
             addPieces: function(pieces){
                 this.$emit('addPieces', pieces);
+            },
+            removePiece: function(piece){
+                this.$emit('removePiece', piece);
             }
         }
     }
