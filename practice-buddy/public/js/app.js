@@ -1727,14 +1727,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {},
+  mounted: function mounted() {
+    var _this = this;
+
+    axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("pieces/" + this.category.id).then(function (response) {
+      if (response.data.result = 'OK') _this.pieces = response.data.pieces;
+
+      _this.$emit('addPieces', _this.pieces.map(function (piece) {
+        return piece.name;
+      }));
+    });
+  },
   props: {
-    name: {
-      type: String,
-      required: true
-    },
-    pieces: {
-      type: Array,
+    category: {
+      type: Object,
       required: true
     }
   },
@@ -1742,24 +1748,19 @@ __webpack_require__.r(__webpack_exports__);
     return {
       isChanging: false,
       newName: "",
-      sessions: []
+      pieces: []
     };
   },
   methods: {
     addSubmit: function addSubmit(event) {
-      var _this = this;
+      var _this2 = this;
 
       if (this.newName != "") {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("/pieces", {
           piece_name: this.newName,
           category: this.name
         }).then(function (response) {
-          _this.$emit('addPiece', {
-            category_name: _this.name,
-            piece_id: response.data.piece.id,
-            piece_name: response.data.piece.name,
-            session_id: null
-          });
+          _this2.$emit('addPieces', [newName]);
         });
         this.newName = "";
       }
@@ -1774,16 +1775,18 @@ __webpack_require__.r(__webpack_exports__);
       this.pieces.splice(index, 1);
     },
     remove: function remove(event) {
-      var _this2 = this;
+      var _this3 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a["delete"]("/categories/" + this.cat.id).then(function (response) {
         if (response.data.result == 'ok') {
-          _this2.$emit('remove');
+          _this3.$emit('remove');
         }
       });
     },
-    changeSessionStatus: function changeSessionStatus(pieceid, session) {
-      this.$emit('changeSessionStatus', pieceid, session);
+    changeSessionStatus: function changeSessionStatus(piece_id, session) {
+      this.pieces.find(function (object) {
+        return object.id == piece_id;
+      }).session = session;
     }
   }
 });
@@ -1832,17 +1835,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-//
-//
-//
 //
 //
 //
@@ -1871,19 +1863,11 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  watch: {
-    data: function data(newVal, oldVal) {
-      // watch it
-      this.categories = _toConsumableArray(new Set(this.data.map(function (item) {
-        return item.category_name;
-      })));
-    }
-  },
-  props: {
-    data: {
-      type: Array,
-      required: true
-    }
+  mounted: function mounted() {
+    /*
+    axios.get("/categories").then((response) => {
+    this.categories = response.data.categories;
+    });*/
   },
   data: function data() {
     return {
@@ -1893,11 +1877,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     };
   },
   methods: {
-    pieces: function pieces(name) {
-      return this.data.filter(function (piece) {
-        return piece.category_name == name;
-      });
-    },
     addSubmit: function addSubmit(event) {
       var _this = this;
 
@@ -1929,11 +1908,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
     removeCategory: function removeCategory(index) {
       this.categories.splice(index, 1);
     },
-    changeSessionStatus: function changeSessionStatus(pieceid, session) {
-      this.$emit('changeSessionStatus', pieceid, session);
-    },
-    addPiece: function addPiece(piece) {
-      this.$emit('addPiece', piece);
+    addPieces: function addPieces(pieces) {
+      this.$emit('addPieces', pieces);
     }
   }
 });
@@ -1981,34 +1957,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  watch: {
-    session: function session(newVal, oldVal) {
-      this.checked = newVal != null;
-    }
-  },
   props: {
-    name: {
-      type: String,
-      required: true
-    },
-    piece_id: {
-      required: true
-    },
-    session: {
+    piece: {
+      type: Object,
       required: true
     }
   },
   data: function data() {
     return {
       hover: false,
-      checked: this.session != null
+      checked: this.piece.session != null
     };
   },
   methods: {
     remove: function remove(event) {
       var _this = this;
 
-      axios["delete"]("/pieces/" + this.piece_id).then(function (response) {
+      axios["delete"]("/pieces/" + this.piece.id).then(function (response) {
         if (response.data.result == 'ok') {
           _this.$emit('remove');
         }
@@ -2018,17 +1983,23 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       if (this.checked) {
-        axios["delete"]("/sessions/" + this.session).then(function (response) {
+        axios["delete"]("/sessions/" + this.piece.session).then(function (response) {
           if (response.data.result == 'OK') {
-            _this2.$emit('changeSessionStatus', _this2.piece_id, null);
+            _this2.checked = false;
+            _this2.piece.session = null;
+
+            _this2.$emit('changeSessionStatus', _this2.piece.id, null);
           }
         });
       } else {
         axios.post("/sessions", {
-          piece: this.piece_id
+          piece: this.piece.id
         }).then(function (response) {
           if (response.data.result == 'OK') {
-            _this2.$emit('changeSessionStatus', _this2.piece_id, response.data.session);
+            _this2.checked = true;
+            _this2.piece.session = response.data.session;
+
+            _this2.$emit('changeSessionStatus', _this2.piece.id, response.data.session);
           }
         });
       }
@@ -2248,16 +2219,6 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
-
-function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
-
-function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
-
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
-
-//
-//
 //
 //
 //
@@ -2306,24 +2267,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    var _this = this;
-
-    axios.get("/categories").then(function (response) {
-      _this.data = response.data.data;
-    });
-  },
-  watch: {
-    data: function data(newVal, oldVal) {
-      // watch it
-      var filtered = this.data.filter(function (item) {
-        return item.piece_name != null;
-      });
-      this.piece_names = _toConsumableArray(new Set(filtered.map(function (item) {
-        return item.piece_name;
-      })));
-    }
-  },
+  mounted: function mounted() {},
   props: {
     username: {
       type: String,
@@ -2337,19 +2281,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   data: function data() {
     return {
       active: "home",
-      data: [],
       piece_names: []
     };
   },
   methods: {
-    changeSessionStatus: function changeSessionStatus(pieceid, session) {
-      this.data.find(function (object) {
-        return object.piece_id == pieceid;
-      }).session_id = session;
-    },
-    addPiece: function addPiece(piece) {
-      this.data.push(piece);
-    },
     activateHome: function activateHome(event) {
       event.preventDefault();
       this.active = "home";
@@ -2359,6 +2294,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
       event.preventDefault();
       this.active = "stats";
       return;
+    },
+    addPieces: function addPieces(pieces) {
+      console.log('recieved on window ' + pieces);
+      this.piece_names = this.piece_names.concat(pieces);
     }
   }
 });
@@ -71820,7 +71759,7 @@ var render = function() {
                 {
                   staticClass: "card-title m-0 category-name font-weight-light"
                 },
-                [_vm._v(_vm._s(_vm.name))]
+                [_vm._v(_vm._s(_vm.category.name))]
               ),
               _vm._v(" "),
               _c(
@@ -71843,21 +71782,15 @@ var render = function() {
                   "div",
                   { key: index },
                   [
-                    piece.piece_id != null
-                      ? _c("piece", {
-                          attrs: {
-                            name: piece.piece_name,
-                            piece_id: piece.piece_id,
-                            session: piece.session_id
-                          },
-                          on: {
-                            remove: function($event) {
-                              return _vm.removePiece(index)
-                            },
-                            changeSessionStatus: _vm.changeSessionStatus
-                          }
-                        })
-                      : _vm._e()
+                    _c("piece", {
+                      attrs: { piece: piece },
+                      on: {
+                        remove: function($event) {
+                          return _vm.removePiece(index)
+                        },
+                        changeSessionStatus: _vm.changeSessionStatus
+                      }
+                    })
                   ],
                   1
                 )
@@ -72012,13 +71945,12 @@ var render = function() {
           { key: index },
           [
             _c("category", {
-              attrs: { name: category, pieces: _vm.pieces(category) },
+              attrs: { category: category },
               on: {
                 remove: function($event) {
                   return _vm.removeCategory(index)
                 },
-                changeSessionStatus: _vm.changeSessionStatus,
-                addPiece: _vm.addPiece
+                addPieces: _vm.addPieces
               }
             })
           ],
@@ -72159,7 +72091,7 @@ var render = function() {
           }
         ],
         staticClass: "done-checkbox",
-        attrs: { type: "checkbox", id: "checkbox" + _vm.piece_id },
+        attrs: { type: "checkbox", id: "checkbox" + _vm.piece.id },
         domProps: {
           checked: Array.isArray(_vm.checked)
             ? _vm._i(_vm.checked, null) > -1
@@ -72192,9 +72124,9 @@ var render = function() {
         {
           staticClass: "piece-name lead",
           class: { crossedout: _vm.checked },
-          attrs: { for: "checkbox" + _vm.piece_id }
+          attrs: { for: "checkbox" + _vm.piece.id }
         },
-        [_vm._v(_vm._s(_vm.name))]
+        [_vm._v(_vm._s(_vm.piece.name))]
       ),
       _vm._v(" "),
       _c(
@@ -72251,7 +72183,8 @@ var render = function() {
                       xAxes: [
                         {
                           ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            max: _vm.all_pieces.length
                           }
                         }
                       ]
@@ -72286,7 +72219,6 @@ var render = function() {
                         }
                       },
                       ticks: {
-                        beginAtZero: true,
                         max: _vm.days.length,
                         min: -1
                       }
@@ -72480,11 +72412,7 @@ var render = function() {
               expression: "active == 'home'"
             }
           ],
-          attrs: { data: _vm.data },
-          on: {
-            changeSessionStatus: _vm.changeSessionStatus,
-            addPiece: _vm.addPiece
-          }
+          on: { addPieces: _vm.addPieces }
         }),
         _vm._v(" "),
         _vm.active == "stats"

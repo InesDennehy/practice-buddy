@@ -8,10 +8,25 @@ use App\Piece;
 use App\Category;
 use App\Session;
 use Illuminate\Support\Carbon;
-use SebastianBergmann\Environment\Console;
+use Illuminate\Support\Facades\DB;
 
 class PiecesController extends Controller
 {
+    public function index($id){
+        $category = Category::findOrFail($id);
+        if($category != null && $category->user_id == Auth::user()->id){
+            $pieces = $category->pieces()
+            ->leftJoin('sessions', function($join) {
+                $join->on('sessions.piece_id', '=', 'pieces.id')
+                ->whereDate('sessions.created_at','=', Carbon::today());
+            })
+            ->select('pieces.name as name', 'pieces.id as id', 'sessions.id as session', 'pieces.category_id')
+            ->where("pieces.category_id", $category->id)
+            ->get();
+            return response()->json(['result' => 'OK', 'pieces' => $pieces]);
+        }
+        return response()->json(['result' => 'unauthorized access or null category']);
+    }
 
     public function store(){
         request()->validate([

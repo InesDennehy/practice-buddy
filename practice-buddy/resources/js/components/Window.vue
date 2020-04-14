@@ -39,9 +39,7 @@
         </nav>
 
         <main class="py-4">
-            <Home v-show="active == 'home'" v-bind:data="data"
-                @changeSessionStatus="changeSessionStatus"
-                @addPiece="addPiece"></Home>
+            <Home v-show="active == 'home'" @addPieces="addPieces"></Home>
             <Stats v-if="active == 'stats'" :all_pieces="piece_names"></Stats>
         </main>
     </div>
@@ -50,15 +48,6 @@
 <script>
     export default {
         mounted() {
-            axios.get("/categories").then((response)=>{
-                this.data = response.data.data;
-            });
-        },
-        watch: {
-            data: function(newVal, oldVal) { // watch it
-                var filtered = this.data.filter(item => item.piece_name != null);
-                this.piece_names = [...new Set(filtered.map(item => item.piece_name))];
-            }
         },
         props:{
             username: {
@@ -74,17 +63,10 @@
         data(){
             return{
                 active: "home",
-                data: [],
                 piece_names: [],
             }
         },
         methods: {
-            changeSessionStatus: function(pieceid, session){
-                this.data.find(object => object.piece_id == pieceid).session_id = session;
-            },
-            addPiece: function(piece){
-                this.data.push(piece);
-            },
             activateHome: function(event){
                 event.preventDefault();
                 this.active = "home";
@@ -94,6 +76,10 @@
                 event.preventDefault();
                 this.active = "stats";
                 return;
+            },
+            addPieces: function(pieces){
+                console.log('recieved on window '+pieces);
+                this.piece_names = this.piece_names.concat(pieces);
             }
         }
     }

@@ -1,10 +1,7 @@
 <template>
     <div>
         <div v-for="(category,index) in categories" :key="index">
-            <category :name="category" v-bind:pieces="pieces(category)"
-                @remove="removeCategory(index)"
-                @changeSessionStatus="changeSessionStatus"
-                @addPiece="addPiece"></category>
+            <category :category="category" @remove="removeCategory(index)" @addPieces="addPieces"></category>
         </div>
         <div class="row justify-content-center">
             <button class="btn btn-secondary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
@@ -30,16 +27,10 @@
 
 <script>
     export default {
-        watch: {
-            data: function(newVal, oldVal) { // watch it
-                this.categories = [...new Set(this.data.map(item => item.category_name))];
-            }
-        },
-        props:{
-            data: {
-                type: Array,
-                required: true,
-            }
+        mounted(){/*
+            axios.get("/categories").then((response) => {
+                this.categories = response.data.categories;
+            });*/
         },
         data(){
             return{
@@ -49,11 +40,6 @@
             }
         },
         methods: {
-            pieces: function(name){
-                return this.data.filter(function(piece) {
-                        return piece.category_name == name;
-                    });
-            },
             addSubmit: function(event){
                 if(this.newName != ""){
                     axios.post("/categories", {category_name: this.newName}).then((response)=>{
@@ -77,11 +63,8 @@
             removeCategory: function(index){
                 this.categories.splice(index, 1);
             },
-            changeSessionStatus: function(pieceid, session){
-                this.$emit('changeSessionStatus', pieceid, session);
-            },
-            addPiece: function(piece){
-                this.$emit('addPiece', piece);
+            addPieces: function(pieces){
+                this.$emit('addPieces', pieces);
             }
         }
     }

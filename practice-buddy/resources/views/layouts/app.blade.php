@@ -9,10 +9,6 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{asset('css/general.css')}}" rel="stylesheet">
-    @yield('styles')
 
 
     <title>{{ config('app.name', 'Laravel') }}</title>
@@ -22,6 +18,11 @@
     <div id="app">
         @yield('content')
     </div>
+
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{asset('css/general.css')}}" rel="stylesheet">
+    @yield('styles')
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>

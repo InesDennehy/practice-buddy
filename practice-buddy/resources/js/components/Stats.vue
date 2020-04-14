@@ -14,6 +14,7 @@
                                     xAxes: [{
                                         ticks: {
                                             beginAtZero: true,
+                                            max: all_pieces.length,
                                         },
                                     }]
                                 }
@@ -40,7 +41,6 @@
                                         }
                                     },
                                     ticks: {
-                                        beginAtZero: true,
                                         max: days.length,
                                         min: -1,
                                     }
