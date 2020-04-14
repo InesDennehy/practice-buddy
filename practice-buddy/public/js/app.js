@@ -1908,7 +1908,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
           if (response.data.status == 'OK') {
             _this.categories.push(_this.newName);
 
-            _this.$emit('addPiece', {
+            _this.$emit('addCategory', {
               category_name: _this.newName,
               piece_id: null,
               piece_name: null,
@@ -2316,7 +2316,10 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   watch: {
     data: function data(newVal, oldVal) {
       // watch it
-      this.piece_names = _toConsumableArray(new Set(this.data.map(function (item) {
+      var filtered = this.data.filter(function (item) {
+        return item.piece_name != null;
+      });
+      this.piece_names = _toConsumableArray(new Set(filtered.map(function (item) {
         return item.piece_name;
       })));
     }

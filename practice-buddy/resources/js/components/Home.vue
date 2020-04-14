@@ -59,7 +59,7 @@
                     axios.post("/categories", {category_name: this.newName}).then((response)=>{
                         if(response.data.status == 'OK'){
                             this.categories.push(this.newName);
-                            this.$emit('addPiece', {category_name: this.newName,
+                            this.$emit('addCategory', {category_name: this.newName,
                                 piece_id: null,
                                 piece_name: null,
                                 session_id: null});

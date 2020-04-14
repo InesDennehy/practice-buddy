@@ -56,7 +56,8 @@
         },
         watch: {
             data: function(newVal, oldVal) { // watch it
-                this.piece_names = [...new Set(this.data.map(item => item.piece_name))];
+                var filtered = this.data.filter(item => item.piece_name != null);
+                this.piece_names = [...new Set(filtered.map(item => item.piece_name))];
             }
         },
         props:{
