@@ -10,3 +10,8 @@ html, body, #app{
     width: 100%;
     margin: 0px;
 }
+.no-pieces-filler{
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}

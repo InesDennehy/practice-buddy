@@ -3,6 +3,7 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-laravel sticky-top">
             <div class="container">
                 <a class="navbar-brand" href="/home">
+                    <img src="/images/icons/icon-128x128.png" style="width:35px; height:35px" alt="logo">
                     PracticeBuddy
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle Navigation">

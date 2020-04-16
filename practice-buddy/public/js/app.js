@@ -2096,11 +2096,22 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    this.getData();
+    if (this.existent_pieces) this.getData();
   },
   props: {
     all_pieces: {
@@ -2110,6 +2121,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   },
   data: function data() {
     return {
+      existent_pieces: this.all_pieces != [],
       data: [],
       days: [],
       avgPiecesPD: 0,
@@ -2196,6 +2208,7 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -72096,87 +72109,113 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
     _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "card category border-0 shadow" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "card-body" },
-            [
-              _c("h4", [
-                _vm._v(
-                  "Average pieces studied per day: " + _vm._s(_vm.avgPiecesPD)
-                )
-              ]),
+      !_vm.existent_pieces
+        ? _c("div", { staticClass: "col-md-8" }, [_vm._m(0)])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.existent_pieces
+        ? _c("div", { staticClass: "col-md-8" }, [
+            _c("div", { staticClass: "card category border-0 shadow" }, [
+              _vm._m(1),
               _vm._v(" "),
-              _c("Line-Chart", {
-                attrs: {
-                  "chart-data": _vm.times_per_day_data,
-                  options: {
-                    scales: {
-                      yAxes: [
-                        {
+              _c(
+                "div",
+                { staticClass: "card-body" },
+                [
+                  _c("h4", [
+                    _vm._v(
+                      "Average pieces studied per day: " +
+                        _vm._s(_vm.avgPiecesPD)
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("Line-Chart", {
+                    attrs: {
+                      "chart-data": _vm.times_per_day_data,
+                      options: {
+                        scales: {
+                          yAxes: [
+                            {
+                              ticks: {
+                                max: _vm.all_pieces.length
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  })
+                ],
+                1
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card category border-0 shadow" }, [
+              _vm._m(2),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "card-body" },
+                [
+                  _c("Radar-Chart", {
+                    attrs: {
+                      "chart-data": _vm.times_per_piece_data,
+                      options: {
+                        scale: {
+                          pointLabels: {
+                            callback: function(pointLabel) {
+                              if (pointLabel.length > 10) {
+                                return pointLabel.substr(0, 10) + "..." //truncate
+                              } else {
+                                return pointLabel
+                              }
+                            }
+                          },
                           ticks: {
-                            max: _vm.all_pieces.length
+                            max: _vm.days.length,
+                            min: -1
                           }
-                        }
-                      ]
-                    }
-                  }
-                }
-              })
-            ],
-            1
-          )
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card category border-0 shadow" }, [
-          _vm._m(1),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "card-body" },
-            [
-              _c("Radar-Chart", {
-                attrs: {
-                  "chart-data": _vm.times_per_piece_data,
-                  options: {
-                    scale: {
-                      pointLabels: {
-                        callback: function(pointLabel) {
-                          if (pointLabel.length > 10) {
-                            return pointLabel.substr(0, 10) + "..." //truncate
-                          } else {
-                            return pointLabel
+                        },
+                        tooltips: {
+                          enabled: true,
+                          callbacks: {
+                            label: function(tooltipItems, data) {
+                              return data.labels[tooltipItems.index]
+                            }
                           }
-                        }
-                      },
-                      ticks: {
-                        max: _vm.days.length,
-                        min: -1
-                      }
-                    },
-                    tooltips: {
-                      enabled: true,
-                      callbacks: {
-                        label: function(tooltipItems, data) {
-                          return data.labels[tooltipItems.index]
                         }
                       }
                     }
-                  }
-                }
-              })
-            ],
-            1
-          )
-        ])
-      ])
+                  })
+                ],
+                1
+              )
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card category border-0 shadow" }, [
+      _c("img", {
+        staticClass: "card-img-top no-pieces-filler",
+        attrs: { src: "images/no-pieces-filler.png", alt: "Image" }
+      }),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body" }, [
+        _c("div", { staticClass: "card-title" }, [
+          _c("h4", { staticClass: "display text-center" }, [
+            _vm._v("There are currently no pieces added, try and add one!")
+          ])
+        ])
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -72236,11 +72275,9 @@ var render = function() {
       },
       [
         _c("div", { staticClass: "container" }, [
-          _c("a", { staticClass: "navbar-brand", attrs: { href: "/home" } }, [
-            _vm._v("\n                PracticeBuddy\n            ")
-          ]),
-          _vm._v(" "),
           _vm._m(0),
+          _vm._v(" "),
+          _vm._m(1),
           _vm._v(" "),
           _c(
             "div",
@@ -72358,6 +72395,18 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "navbar-brand", attrs: { href: "/home" } }, [
+      _c("img", {
+        staticStyle: { width: "35px", height: "35px" },
+        attrs: { src: "/images/icons/icon-128x128.png", alt: "logo" }
+      }),
+      _vm._v("\n                PracticeBuddy\n            ")
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -1,7 +1,18 @@
 <template>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div v-if="!existent_pieces" class="col-md-8">
+                <div class="card category border-0 shadow">
+                    <img class="card-img-top no-pieces-filler" src="images/no-pieces-filler.png" alt="Image">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h4 class="display text-center">There are currently no pieces added, try and add one!</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div v-if="existent_pieces" class="col-md-8">
                 <div class="card category border-0 shadow">
                     <div class="card-header modal-header category-header">
                         <h3 class="card-title m-0 font-weight-light">Overview</h3>
@@ -67,7 +78,8 @@
 
     export default {
         mounted() {
-            this.getData();
+            if(this.existent_pieces)
+                this.getData();
         },
         props:{
             all_pieces:{
@@ -77,6 +89,7 @@
         },
         data(){
             return{
+                existent_pieces: this.all_pieces != [],
                 data: [],
                 days: [],
                 avgPiecesPD: 0,
