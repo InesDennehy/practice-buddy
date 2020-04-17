@@ -35,4 +35,4 @@ Route::delete('/pieces/{id}', 'PiecesController@delete')->middleware('auth');
 
 Route::post('/sessions', 'SessionsController@store')->middleware('auth');
 Route::delete('/sessions/{pieceid}', 'SessionsController@delete')->middleware('auth');
-Route::get('/stats/week', 'SessionsController@weekdata')->middleware('auth');
+Route::get('/stats/last/{days}', 'SessionsController@data')->middleware('auth');

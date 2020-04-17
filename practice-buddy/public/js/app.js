@@ -2007,6 +2007,13 @@ var reactiveProp = vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["mixins"].reactivePr
   props: ['options'],
   mounted: function mounted() {
     this.renderChart(this.chartData, this.options);
+  },
+  watch: {
+    options: function options() {
+      this.$data._chart.options = this.options;
+
+      this.$data._chart.update();
+    }
   }
 });
 
@@ -2107,11 +2114,14 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    if (this.existent_pieces) this.getData();
+    if (this.existent_pieces) {
+      this.getData(7);
+    }
   },
   props: {
     all_pieces: {
@@ -2121,25 +2131,52 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
   },
   data: function data() {
     return {
-      existent_pieces: this.all_pieces != [],
+      existent_pieces: this.all_pieces.length != [],
       data: [],
       days: [],
+      period: 'last week',
       avgPiecesPD: 0,
       pieces: [],
       times_per_piece_data: {},
+      times_per_piece_options: {},
       times_per_day_data: {}
     };
   },
   methods: {
-    getData: function getData() {
+    getData: function getData(number) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/stats/week").then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get("/stats/last/" + number).then(function (response) {
         _this.data = response.data.data;
         _this.days = response.data.days;
         _this.pieces = _toConsumableArray(new Set(_this.data.map(function (session) {
           return session.piece_name;
         })));
+        _this.times_per_piece_options = {
+          scale: {
+            pointLabels: {
+              callback: function callback(pointLabel) {
+                if (pointLabel.length > 10) {
+                  return pointLabel.substr(0, 10) + '...'; //truncate
+                } else {
+                  return pointLabel;
+                }
+              }
+            },
+            ticks: {
+              max: _this.days.length,
+              min: -1
+            }
+          },
+          tooltips: {
+            enabled: true,
+            callbacks: {
+              label: function label(tooltipItems, data) {
+                return data.labels[tooltipItems.index];
+              }
+            }
+          }
+        };
 
         _this.updateTimesPerPieceData();
 
@@ -2193,6 +2230,30 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         piece_times_count.push(count);
       });
       return piece_times_count;
+    },
+    activateLastWeek: function activateLastWeek(event) {
+      event.preventDefault();
+
+      if (this.period != 'last week') {
+        this.getData(7);
+        this.period = 'last week';
+      }
+    },
+    activateLastMonth: function activateLastMonth(event) {
+      event.preventDefault();
+
+      if (this.period != 'last month') {
+        this.getData(30);
+        this.period = 'last month';
+      }
+    },
+    activateLastYear: function activateLastYear(event) {
+      event.preventDefault();
+
+      if (this.period != 'last year') {
+        this.getData(365);
+        this.period = 'last year';
+      }
     }
   }
 });
@@ -72116,6 +72177,57 @@ var render = function() {
       _vm.existent_pieces
         ? _c("div", { staticClass: "col-md-8" }, [
             _c("div", { staticClass: "card category border-0 shadow" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "card-title" }, [
+                  _c("h4", { staticClass: "display text-center" }, [
+                    _vm._v("Showing data from")
+                  ]),
+                  _vm._v(" "),
+                  _c("ul", { staticClass: "nav nav-pills nav-justified" }, [
+                    _c("li", { staticClass: "nav-item" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "nav-link",
+                          class: { active: _vm.period == "last week" },
+                          attrs: { href: "#" },
+                          on: { click: _vm.activateLastWeek }
+                        },
+                        [_vm._v("Last week")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", { staticClass: "nav-item" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "nav-link",
+                          class: { active: _vm.period == "last month" },
+                          attrs: { href: "#" },
+                          on: { click: _vm.activateLastMonth }
+                        },
+                        [_vm._v("Last month")]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("li", { staticClass: "nav-item" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "nav-link",
+                          class: { active: _vm.period == "last year" },
+                          attrs: { href: "#" },
+                          on: { click: _vm.activateLastYear }
+                        },
+                        [_vm._v("Last year")]
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card category border-0 shadow" }, [
               _vm._m(1),
               _vm._v(" "),
               _c(
@@ -72133,6 +72245,8 @@ var render = function() {
                     attrs: {
                       "chart-data": _vm.times_per_day_data,
                       options: {
+                        respinsive: true,
+                        mantainAspectRatio: false,
                         scales: {
                           yAxes: [
                             {
@@ -72160,31 +72274,7 @@ var render = function() {
                   _c("Radar-Chart", {
                     attrs: {
                       "chart-data": _vm.times_per_piece_data,
-                      options: {
-                        scale: {
-                          pointLabels: {
-                            callback: function(pointLabel) {
-                              if (pointLabel.length > 10) {
-                                return pointLabel.substr(0, 10) + "..." //truncate
-                              } else {
-                                return pointLabel
-                              }
-                            }
-                          },
-                          ticks: {
-                            max: _vm.days.length,
-                            min: -1
-                          }
-                        },
-                        tooltips: {
-                          enabled: true,
-                          callbacks: {
-                            label: function(tooltipItems, data) {
-                              return data.labels[tooltipItems.index]
-                            }
-                          }
-                        }
-                      }
+                      options: _vm.times_per_piece_options
                     }
                   })
                 ],

@@ -14,6 +14,29 @@
 
             <div v-if="existent_pieces" class="col-md-8">
                 <div class="card category border-0 shadow">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h4 class="display text-center">Showing data from</h4>
+                            <ul class="nav nav-pills nav-justified">
+                                <li class="nav-item">
+                                    <a class="nav-link" v-bind:class="{ active: period == 'last week' }" href="#"
+                                        @click="activateLastWeek">Last week</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" v-bind:class="{ active: period == 'last month' }" href="#"
+                                        @click="activateLastMonth">Last month</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" v-bind:class="{ active: period == 'last year' }" href="#"
+                                        @click="activateLastYear">Last year</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card category border-0 shadow">
                     <div class="card-header modal-header category-header">
                         <h3 class="card-title m-0 font-weight-light">Overview</h3>
                     </div>
@@ -21,6 +44,8 @@
                         <h4>Average pieces studied per day: {{avgPiecesPD}}</h4>
                         <Line-Chart :chart-data="times_per_day_data"
                             :options="{
+                                respinsive:true,
+                                mantainAspectRatio: false,
                                 scales: {
                                     yAxes: [{
                                         ticks: {
@@ -39,31 +64,7 @@
                     </div>
                     <div class="card-body">
                         <Radar-Chart :chart-data="times_per_piece_data"
-                            :options="{
-                                scale: {
-                                    pointLabels: {
-                                        callback: function(pointLabel) {
-                                            if (pointLabel.length > 10) {
-                                                return pointLabel.substr(0, 10) + '...'; //truncate
-                                            } else {
-                                                return pointLabel
-                                            }
-                                        }
-                                    },
-                                    ticks: {
-                                        max: days.length,
-                                        min: -1,
-                                    }
-                                },
-                                tooltips: {
-                                    enabled: true,
-                                    callbacks: {
-                                        label: function(tooltipItems, data) {
-                                            return data.labels[tooltipItems.index];
-                                        }
-                                    }
-                                },
-                            }">
+                            :options="times_per_piece_options">
                         </Radar-Chart>
                     </div>
                 </div>
@@ -78,8 +79,9 @@
 
     export default {
         mounted() {
-            if(this.existent_pieces)
-                this.getData();
+            if(this.existent_pieces){
+                this.getData(7);
+            }
         },
         props:{
             all_pieces:{
@@ -89,21 +91,49 @@
         },
         data(){
             return{
-                existent_pieces: this.all_pieces != [],
+                existent_pieces: this.all_pieces.length != [],
                 data: [],
                 days: [],
+                period: 'last week',
                 avgPiecesPD: 0,
                 pieces: [],
                 times_per_piece_data: {},
+                times_per_piece_options: {},
                 times_per_day_data: {},
             }
         },
         methods: {
-            getData: function(){
-                axios.get("/stats/week").then((response) =>{
+            getData: function(number){
+                axios.get("/stats/last/"+number).then((response) =>{
                     this.data = response.data.data;
                     this.days = response.data.days;
                     this.pieces = [...new Set(this.data.map(session => session.piece_name))];
+                    this.times_per_piece_options = {
+                    scale: {
+                        pointLabels: {
+                            callback: function(pointLabel) {
+                                if (pointLabel.length > 10) {
+                                    return pointLabel.substr(0, 10) + '...'; //truncate
+                                } else {
+                                    return pointLabel
+                                }
+                            }
+                        },
+                        ticks: {
+                            max: this.days.length,
+                            min: -1,
+                        }
+                    },
+                    tooltips: {
+                        enabled: true,
+                        callbacks: {
+                            label: function(tooltipItems, data) {
+                                return data.labels[tooltipItems.index];
+                            }
+                        }
+                    },
+                }
+
                     this.updateTimesPerPieceData();
                     this.updateTimesPerDayData();
                 });
@@ -155,7 +185,29 @@
                     piece_times_count.push(count);
                 });
                 return piece_times_count;
-            }
+            },
+
+            activateLastWeek: function(event){
+                event.preventDefault();
+                if(this.period != 'last week'){
+                    this.getData(7);
+                    this.period = 'last week';
+                }
+            },
+            activateLastMonth: function(event){
+                event.preventDefault();
+                if(this.period != 'last month'){
+                    this.getData(30);
+                    this.period = 'last month';
+                }
+            },
+            activateLastYear: function(event){
+                event.preventDefault();
+                if(this.period != 'last year'){
+                    this.getData(365);
+                    this.period = 'last year';
+                }
+            },
         }
     }
 </script>
