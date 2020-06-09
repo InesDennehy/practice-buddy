@@ -8,6 +8,11 @@
 
 <script>
     export default {
+        watch: {
+            piece: function(newVal) {
+                this.checked = newVal.session != null;
+            }
+        },
         props: {
             piece:{
                 type: Object,

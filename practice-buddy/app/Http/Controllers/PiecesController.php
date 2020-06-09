@@ -2,16 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Auth;
 use App\Piece;
 use App\Category;
-use App\Session;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
 
 class PiecesController extends Controller
 {
+    public function all(){
+        $pieces = DB::table('pieces')->join('categories', 'pieces.category_id', 'categories.id')
+            ->where('categories.user_id', Auth::user()->id)->select('pieces.name as name')->get()->map(
+                function($item){return $item->name;}
+            );;
+        $categories = Category::where('user_id', Auth::user()->id)->select('name')->get()->map(
+            function($item){return $item->name;}
+        );
+        return response()->json(['pieces' => $pieces, 'categories' => $categories]);
+    }
+
     public function index($id){
         $category = Category::findOrFail($id);
         if($category != null && $category->user_id == Auth::user()->id){

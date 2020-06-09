@@ -40,8 +40,8 @@
         </nav>
 
         <main class="py-4">
-            <Home v-show="active == 'home'" @addPieces="addPieces" @removePiece="removePiece"></Home>
-            <Stats v-if="active == 'stats'" v-bind:all_pieces="piece_names"></Stats>
+            <Home v-show="active == 'home'"></Home>
+            <Stats v-if="active == 'stats'"></Stats>
         </main>
     </div>
 </template>
@@ -64,7 +64,6 @@
         data(){
             return{
                 active: "home",
-                piece_names: [],
             }
         },
         methods: {
@@ -78,12 +77,6 @@
                 this.active = "stats";
                 return;
             },
-            addPieces: function(pieces){
-                this.piece_names = this.piece_names.concat(pieces);
-            },
-            removePiece: function(piece_name){
-                this.piece_names = this.piece_names.filter(piece => piece != piece_name);
-            }
         }
     }
 </script>

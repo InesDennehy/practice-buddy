@@ -28,11 +28,15 @@
     import axios from "axios";
 
     export default {
+        /*watch: {
+            category: function(newVal) {
+                this.pieces = newVal.session != null;
+            }
+        },*/
         mounted(){
             axios.get("pieces/"+this.category.id).then((response) => {
                 if(response.data.result = 'OK')
                     this.pieces = response.data.pieces;
-                    this.$emit('addPieces', this.pieces.map(piece => piece.name));
             });
         },
         props: {
@@ -56,8 +60,10 @@
                         category: this.category.name})
                         .then((response)=>{
                             if(response.data.status == 'OK'){
-                                this.pieces.push({category_id: response.data.piece.category_id, id:response.data.piece.id, name:response.data.piece.name, session: null});
-                                this.$emit('addPieces', [response.data.piece.name]);
+                                this.pieces.push({category_id: response.data.piece.category_id,
+                                    id:response.data.piece.id,
+                                    name:response.data.piece.name,
+                                    session: null});
                             }
                             this.newName = "";
                         });
@@ -70,13 +76,12 @@
                 this.isChanging = false;
             },
             removePiece: function(index){
-                this.$emit('removePiece', this.pieces[index].name);
                 this.pieces.splice(index, 1);
-
             },
             remove: function(event){
                 axios.delete("/categories/"+this.category.id).then((response) =>{
                     if(response.data.result == 'ok'){
+                        this.pieces = [];
                         this.$emit('remove');
                     }
                 });
