@@ -1,15 +1,31 @@
 <template>
     <div class="card category border-0 shadow">
         <div class="card-header modal-header category-header">
-            <h3 class="card-title m-0 font-weight-light">Pieces studied per {{group}}</h3>
+            <h3 class="card-title m-0 font-weight-light">Pieces studied per day</h3>
         </div>
         <div class="card-body">
             <h4>Max: {{max.count}} ({{max.date}})</h4>
             <h4>Min: {{min.count}} ({{min.date}})</h4>
             <h4>Avg: {{avg}}</h4>
-            <Line-Chart :chart-data="graph_data"
-                :options="graph_options">
-            </Line-Chart>
+            <div>
+                <span>
+                    <a class="carousel-control-prev" style="top:180px;" @click="$emit('changeLeft')" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </span>
+                <span>
+                    <Line-Chart style="width:90%;" :chart-data="graph_data"
+                        :options="graph_options">
+                    </Line-Chart>
+                </span>
+                <span>
+                    <a class="carousel-control-next" style="top:180px;" @click="$emit('changeRight')" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </span>
+            </div>
         </div>
     </div>
 </template>
@@ -28,7 +44,6 @@
         },
         mounted() {},
         props: {
-            group: {type: String, required: true,},
             data: {type: Array, required: true,},
             time_range: {type: Array, required: true,},
             max_pieces: {type: Number, required: true,}

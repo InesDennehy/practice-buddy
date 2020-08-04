@@ -5,7 +5,21 @@
                 <div class="card category border-0 shadow">
                     <div class="card-header modal-header category-header">
                         <h3 class="card-title m-0 category-name font-weight-light">{{category.name}}</h3>
-                        <button v-on:click="remove" class="btn btn-outline-danger float-right">Delete</button>
+
+                        <div class="dropdown">
+                            <button
+                                class="btn btn-outline-danger float-right"
+                                type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">Delete</button>
+
+                            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="dropdownMenuButton">
+                                <div class="mb-3">Are you sure you want to delete this category?</div>
+                                <div class="text-center">
+                                <button v-on:click="remove" class="btn btn-sm btn-outline-danger float-center">Delete anyways</button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="card-body">
                         <div v-for="(piece, index) in pieces" :key="index">
@@ -28,11 +42,6 @@
     import axios from "axios";
 
     export default {
-        /*watch: {
-            category: function(newVal) {
-                this.pieces = newVal.session != null;
-            }
-        },*/
         mounted(){
             axios.get("pieces/"+this.category.id).then((response) => {
                 if(response.data.result = 'OK')
@@ -82,7 +91,7 @@
                 axios.delete("/categories/"+this.category.id).then((response) =>{
                     if(response.data.result == 'ok'){
                         this.pieces = [];
-                        this.$emit('remove');
+                        this.$el.parentNode.removeChild(this.$el);
                     }
                 });
             },

@@ -11,10 +11,8 @@ use Illuminate\Support\Carbon;
 class PiecesController extends Controller
 {
     public function all(){
-        $pieces = DB::table('pieces')->join('categories', 'pieces.category_id', 'categories.id')
-            ->where('categories.user_id', Auth::user()->id)->select('pieces.name as name')->get()->map(
-                function($item){return $item->name;}
-            );;
+        $pieces = DB::table('pieces')->leftJoin('categories', 'pieces.category_id', 'categories.id')
+            ->where('categories.user_id', Auth::user()->id)->select('pieces.name as name', 'categories.name as category')->get();
         $categories = Category::where('user_id', Auth::user()->id)->select('name')->get()->map(
             function($item){return $item->name;}
         );

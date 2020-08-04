@@ -19,3 +19,10 @@
 .add-piece-btn{
     margin-top: 10px;
 }
+
+.input_error{
+    border-width: 2px;
+    border-color: #d9534f;
+    border-radius: 5px;
+    border-style: solid;
+}

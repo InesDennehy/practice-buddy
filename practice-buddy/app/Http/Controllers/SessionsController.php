@@ -35,15 +35,23 @@ class SessionsController extends Controller{
         return response()->json(['result' => 'error']);
     }
 
-    public function data($days){
+    public function data(){
+        request()->validate([
+            'days' => 'required',
+            'offset' => 'required',
+        ]);
+        $days = request('days');
+        $offset = request('offset');
+        $lastDay = Carbon::now()->addDays($offset*$days);
+        $firstDay = Carbon::now()->addDays($offset*$days)->subDays($days-1);
         $sessions = DB::table('sessions')
             ->join('pieces', 'sessions.piece_id', '=', 'pieces.id')
             ->join('categories', 'pieces.category_id', '=', 'categories.id')
             ->select(DB::raw('DATE_FORMAT(sessions.created_at, "%d-%b-%Y") as created_at'), 'categories.user_id', 'categories.name as category_name', 'pieces.name as piece_name')
             ->where('categories.user_id', Auth::user()->id)
-            ->whereBetween('sessions.created_at', [Carbon::now()->subDays($days-1), Carbon::now()])
+            ->whereBetween('sessions.created_at', [$firstDay, $lastDay])
             ->get();
-        $period = CarbonPeriod::create(Carbon::now()->subDays($days-1), Carbon::now());
+        $period = CarbonPeriod::create($firstDay, $lastDay->addDay());
         // Iterate over the period
         $dates = [];
         foreach ($period as $date) {
@@ -51,6 +59,6 @@ class SessionsController extends Controller{
         }
         // Convert the period to an array of dates
 
-        return response()->json(['data' => $sessions, 'days' => $dates]);
+        return response()->json(['data' => $sessions, 'days' => $dates, 'firstDay' => $firstDay, 'lastDay' => $lastDay]);
     }
 }

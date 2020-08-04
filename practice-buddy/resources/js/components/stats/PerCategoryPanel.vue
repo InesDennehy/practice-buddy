@@ -1,5 +1,5 @@
 <template>
-    <div class="card category border-0 shadow">
+    <div class="card category border-0 shadow" >
         <div class="card-header modal-header category-header">
             <h3 class="card-title m-0 font-weight-light">Times Studied per category</h3>
         </div>

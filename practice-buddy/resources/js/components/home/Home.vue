@@ -14,7 +14,10 @@
                                     v-on:keyup.enter="addSubmit"
                                     v-on:keyup.esc="stopChange"
                                     @blur="stopChange"
-                                    v-model="newName"/>
+                                    v-model="newName"
+                                    v-bind:class="{input_error: exists_error}"/>
+                                <div v-if="exists_error" style="color: #d9534f">
+                                    Can't create another category with same name</div>
                             </div>
                             <div class="card-body"></div>
                         </div>
@@ -37,11 +40,14 @@
                 isChanging: false,
                 newName: "",
                 categories: [],
+                exists_error: false,
             }
         },
         methods: {
             addSubmit: function(event){
-                if(this.newName != ""){
+                this.exists_error = this.categories.map(item => item.name).includes(this.newName);
+                console.log(this.exists_error);
+                if(this.newName != "" && !this.exists_error){
                     axios.post("/categories", {category_name: this.newName}).then((response)=>{
                         if(response.data.status == 'OK'){
                             this.categories.push({id: response.data.category.id, name: response.data.category.name});
