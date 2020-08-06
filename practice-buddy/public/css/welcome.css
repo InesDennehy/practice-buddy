@@ -22,7 +22,9 @@ html, body, #app{
 }
 
 .bottom-panel{
-    background-color: darkgrey;
+    background-image: url('/images/Background-welcome2.png'), radial-gradient(circle, white, #d7d7d7);
+    background-repeat: no-repeat;
+    background-size: cover;
     margin: 0px;
 }
 
@@ -94,7 +96,6 @@ html, body, #app{
 }
 
 .login-div{
-    background-color: #595959;
     padding: 5%;
 }
 .login-card{
@@ -142,7 +143,6 @@ html, body, #app{
 }
 
 .register-div{
-    background-color: #F2F2F2;
     padding: 5%;
 }
 .register-card{
