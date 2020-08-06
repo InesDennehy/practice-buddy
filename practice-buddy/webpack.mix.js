@@ -1,5 +1,4 @@
 const mix = require('laravel-mix');
-require('laravel-mix-brotli');
 
 /*
  |--------------------------------------------------------------------------
@@ -13,5 +12,4 @@ require('laravel-mix-brotli');
  */
 
 mix.js('resources/js/app.js', 'public/js')
-   .sass('resources/sass/app.scss', 'public/css')
-   .brotli();
+   .sass('resources/sass/app.scss', 'public/css');

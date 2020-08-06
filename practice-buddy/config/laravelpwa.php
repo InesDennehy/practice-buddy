@@ -4,10 +4,10 @@ return [
     'name' => 'Practice Buddy',
     'manifest' => [
         'name' => env('APP_NAME', 'Practice Buddy'),
-        'short_name' => 'PB',
+        'short_name' => 'PBuddy',
         'start_url' => '/',
-        'background_color' => '#ffffff',
-        'theme_color' => '#000000',
+        'background_color' => '#f2f2f2',
+        'theme_color' => '#555555',
         'display' => 'standalone',
         'orientation'=> 'any',
         'icons' => [
@@ -18,7 +18,7 @@ return [
             '152x152' => '/images/icons/icon-152x152.png',
             '192x192' => '/images/icons/icon-192x192.png',
             '384x384' => '/images/icons/icon-384x384.png',
-            '512x512' => '/images/icons/icon-512x512.png'
+            '512x512' => '/images/icons/icon-512x512.png',
         ],
         'splash' => [
             '640x1136' => '/images/icons/splash-640x1136.png',

@@ -1940,8 +1940,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
     var _this = this;
@@ -72563,7 +72561,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", [
     _c("div", { staticClass: "row justify-content-center" }, [
       _c("div", { staticClass: "col-md-8" }, [
         _c("div", { staticClass: "card category border-0 shadow" }, [
@@ -72597,10 +72595,7 @@ var render = function() {
                 _vm._v(" "),
                 _c(
                   "div",
-                  {
-                    staticClass: "dropdown-menu dropdown-menu-right p-3",
-                    attrs: { "aria-labelledby": "dropdownMenuButton" }
-                  },
+                  { staticClass: "dropdown-menu dropdown-menu-right p-3" },
                   [
                     _c("div", { staticClass: "mb-3" }, [
                       _vm._v("Are you sure you want to delete this category?")
@@ -72741,6 +72736,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
+    { staticClass: "container" },
     [
       _vm._l(_vm.categories, function(category, index) {
         return _c(
@@ -72761,95 +72757,93 @@ var render = function() {
       }),
       _vm._v(" "),
       _c("div", { staticClass: "row justify-content-center" }, [
-        !_vm.isChanging
-          ? _c(
-              "button",
-              {
-                staticClass: "btn btn-secondary",
-                on: { click: _vm.startChange }
-              },
-              [_vm._v("Add new Category +")]
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isChanging
-          ? _c("div", { staticClass: "container" }, [
-              _c("div", { staticClass: "row justify-content-center" }, [
-                _c("div", { staticClass: "col-md-8" }, [
-                  _c("div", { staticClass: "card" }, [
-                    _c("div", { staticClass: "card-header" }, [
-                      _vm.isChanging
-                        ? _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.newName,
-                                expression: "newName"
+        _c("div", { staticClass: "col-md-8 text-center" }, [
+          !_vm.isChanging
+            ? _c(
+                "button",
+                {
+                  staticClass: "btn btn-secondary",
+                  on: { click: _vm.startChange }
+                },
+                [_vm._v("Add new Category +")]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.isChanging
+            ? _c("div", [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-header" }, [
+                    _vm.isChanging
+                      ? _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.newName,
+                              expression: "newName"
+                            }
+                          ],
+                          class: { input_error: _vm.exists_error },
+                          attrs: { maxlength: "255", autofocus: "" },
+                          domProps: { value: _vm.newName },
+                          on: {
+                            keyup: [
+                              function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "enter",
+                                    13,
+                                    $event.key,
+                                    "Enter"
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.addSubmit($event)
+                              },
+                              function($event) {
+                                if (
+                                  !$event.type.indexOf("key") &&
+                                  _vm._k(
+                                    $event.keyCode,
+                                    "esc",
+                                    27,
+                                    $event.key,
+                                    ["Esc", "Escape"]
+                                  )
+                                ) {
+                                  return null
+                                }
+                                return _vm.stopChange($event)
                               }
                             ],
-                            class: { input_error: _vm.exists_error },
-                            attrs: { maxlength: "255", autofocus: "" },
-                            domProps: { value: _vm.newName },
-                            on: {
-                              keyup: [
-                                function($event) {
-                                  if (
-                                    !$event.type.indexOf("key") &&
-                                    _vm._k(
-                                      $event.keyCode,
-                                      "enter",
-                                      13,
-                                      $event.key,
-                                      "Enter"
-                                    )
-                                  ) {
-                                    return null
-                                  }
-                                  return _vm.addSubmit($event)
-                                },
-                                function($event) {
-                                  if (
-                                    !$event.type.indexOf("key") &&
-                                    _vm._k(
-                                      $event.keyCode,
-                                      "esc",
-                                      27,
-                                      $event.key,
-                                      ["Esc", "Escape"]
-                                    )
-                                  ) {
-                                    return null
-                                  }
-                                  return _vm.stopChange($event)
-                                }
-                              ],
-                              blur: _vm.stopChange,
-                              input: function($event) {
-                                if ($event.target.composing) {
-                                  return
-                                }
-                                _vm.newName = $event.target.value
+                            blur: _vm.stopChange,
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
                               }
+                              _vm.newName = $event.target.value
                             }
-                          })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm.exists_error
-                        ? _c("div", { staticStyle: { color: "#d9534f" } }, [
-                            _vm._v(
-                              "\n                                Can't create another category with same name"
-                            )
-                          ])
-                        : _vm._e()
-                    ]),
+                          }
+                        })
+                      : _vm._e(),
                     _vm._v(" "),
-                    _c("div", { staticClass: "card-body" })
-                  ])
+                    _vm.exists_error
+                      ? _c("div", { staticStyle: { color: "#d9534f" } }, [
+                          _vm._v(
+                            "\n                            Can't create another category with same name"
+                          )
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "card-body" })
                 ])
               ])
-            ])
-          : _vm._e()
+            : _vm._e()
+        ])
       ])
     ],
     2

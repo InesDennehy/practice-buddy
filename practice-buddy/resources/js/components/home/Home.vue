@@ -1,26 +1,24 @@
 <template>
-    <div>
+    <div class="container">
         <div v-for="(category,index) in categories" :key="index">
             <category :category="category" @remove="removeCategory(index)"></category>
         </div>
         <div class="row justify-content-center">
-            <button class="btn btn-secondary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
-            <div v-if="isChanging" class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <div class="card">
-                            <div class="card-header">
-                                <input maxlength="255" v-if=isChanging autofocus
-                                    v-on:keyup.enter="addSubmit"
-                                    v-on:keyup.esc="stopChange"
-                                    @blur="stopChange"
-                                    v-model="newName"
-                                    v-bind:class="{input_error: exists_error}"/>
-                                <div v-if="exists_error" style="color: #d9534f">
-                                    Can't create another category with same name</div>
-                            </div>
-                            <div class="card-body"></div>
+            <div class="col-md-8 text-center">
+                <button class="btn btn-secondary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
+                <div v-if="isChanging">
+                    <div class="card">
+                        <div class="card-header">
+                            <input maxlength="255" v-if=isChanging autofocus
+                                v-on:keyup.enter="addSubmit"
+                                v-on:keyup.esc="stopChange"
+                                @blur="stopChange"
+                                v-model="newName"
+                                v-bind:class="{input_error: exists_error}"/>
+                            <div v-if="exists_error" style="color: #d9534f">
+                                Can't create another category with same name</div>
                         </div>
+                        <div class="card-body"></div>
                     </div>
                 </div>
             </div>

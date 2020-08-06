@@ -2,6 +2,9 @@ var staticCacheName = "pwa-v" + new Date().getTime();
 var filesToCache = [
     '/offline',
     '/css/app.css',
+    '/css/general.css',
+    '/css/pieces.css',
+    '/css/categories.css',
     '/js/app.js',
     '/images/icons/icon-72x72.png',
     '/images/icons/icon-96x96.png',
@@ -20,7 +23,10 @@ var filesToCache = [
     '/images/icons/splash-1536x2048.png',
     '/images/icons/splash-1668x2224.png',
     '/images/icons/splash-1668x2388.png',
-    '/images/icons/splash-2048x2732.png'
+    '/images/icons/splash-2048x2732.png',
+    '/images/no-pieces-filler.png',
+    'https://fonts.googleapis.com/css?family=Nunito',
+    'favicon.ico',
 ];
 
 // Cache on install

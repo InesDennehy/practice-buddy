@@ -12,7 +12,8 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0",
-        "silviolleite/laravelpwa": "^1.0.3"
+        "silviolleite/laravelpwa": "^1.0.3",
+        "tomschlick/laravel-http2-server-push": "^0.2.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.6",

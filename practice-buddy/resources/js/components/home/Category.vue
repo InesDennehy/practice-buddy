@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card category border-0 shadow">
@@ -12,7 +12,7 @@
                                 type="button" id="dropdownMenuButton" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">Delete</button>
 
-                            <div class="dropdown-menu dropdown-menu-right p-3" aria-labelledby="dropdownMenuButton">
+                            <div class="dropdown-menu dropdown-menu-right p-3">
                                 <div class="mb-3">Are you sure you want to delete this category?</div>
                                 <div class="text-center">
                                 <button v-on:click="remove" class="btn btn-sm btn-outline-danger float-center">Delete anyways</button>

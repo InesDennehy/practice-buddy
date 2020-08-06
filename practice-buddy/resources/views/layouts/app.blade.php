@@ -11,7 +11,7 @@
 
 
     <title>{{ config('app.name', 'Laravel') }}</title>
-
+    @laravelPWA
 </head>
 <body>
     <div id="app">

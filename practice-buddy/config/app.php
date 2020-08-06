@@ -166,6 +166,7 @@ return [
          * Package Service Providers...
          */
 
+
         /*
          * Application Service Providers...
          */
@@ -176,6 +177,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        \TomSchlick\ServerPush\ServiceProvider::class,
     ],
 
     /*
