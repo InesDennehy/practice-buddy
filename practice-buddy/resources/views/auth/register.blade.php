@@ -1,8 +1,8 @@
-<div class="container">
+<div>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card register-card border-0 shadow">
-                <div class="card-header"><h4 class="text-center">{{ __('Register') }}</h4></div>
+                <div class="card-header"><h3 class="text-center align-middle m-1">{{ __('Register') }}</h3></div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('register') }}">
