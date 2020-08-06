@@ -2,6 +2,7 @@
 @section('content')
     <div class="top-panel my-auto h-100 w-100 d-table">
         <div class="d-table-cell align-middle">
+            <img href="{{asset('images/icons/icon-384x384.png')}}">
             <h1 class="display-3 text-center">Welcome to Practice Buddy</h1>
             <h2 class="text-center">The practice tracker everyone needs</h2>
             <div class="py-4">
