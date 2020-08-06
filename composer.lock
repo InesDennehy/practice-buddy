@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca185821c23037403dc515704f54a6e1",
+    "content-hash": "5f2adaaf45d7171ac8bbd058630a3dbb",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -3949,59 +3949,6 @@
             "description": "CssToInlineStyles is a class that enables you to convert HTML-pages/files into HTML-pages/files with inline styles. This is very useful when you're sending emails.",
             "homepage": "https://github.com/tijsverkoyen/CssToInlineStyles",
             "time": "2020-07-13T06:12:54+00:00"
-        },
-        {
-            "name": "tomschlick/laravel-http2-server-push",
-            "version": "v0.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tomschlick/laravel-http2-server-push.git",
-                "reference": "83d9696a84162b7f7be41ee46bbd432006d773a9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tomschlick/laravel-http2-server-push/zipball/83d9696a84162b7f7be41ee46bbd432006d773a9",
-                "reference": "83d9696a84162b7f7be41ee46bbd432006d773a9",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/contracts": "^5.1.",
-                "illuminate/http": "^5.1",
-                "illuminate/support": "^5.1",
-                "php": ">=7.0"
-            },
-            "require-dev": {
-                "graham-campbell/testbench": "^3.1",
-                "phpunit/phpunit": "^5.4"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "TomSchlick\\ServerPush\\ServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "TomSchlick\\ServerPush\\": "src/"
-                },
-                "files": [
-                    "src/helpers.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Tom Schlick",
-                    "email": "tom@schlick.email"
-                }
-            ],
-            "description": "A middleware package for Laravel 5 to enable server push for your script, style, and image assets.",
-            "time": "2018-10-22T15:28:41+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
