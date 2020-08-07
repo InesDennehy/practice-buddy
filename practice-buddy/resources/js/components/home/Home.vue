@@ -5,7 +5,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-md-8 text-center">
-                <button class="btn btn-secondary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
+                <button class="btn btn-primary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
                 <div v-if="isChanging">
                     <div class="card">
                         <div class="card-header">

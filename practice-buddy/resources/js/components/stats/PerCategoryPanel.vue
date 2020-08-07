@@ -4,9 +4,9 @@
             <h3 class="card-title m-0 font-weight-light">Times Studied per category</h3>
         </div>
         <div class="card-body">
-            <h4>Max: {{max.count}} ({{max.category}})</h4>
-            <h4>Min: {{min.count}} ({{min.category}})</h4>
-            <h4>Avg: {{avg}}</h4>
+            <h5>Max: {{max.count}} ({{max.category}})</h5>
+            <h5>Min: {{min.count}} ({{min.category}})</h5>
+            <h5 style="margin-bottom: 30px">Avg: {{avg}}</h5>
             <Radar-Chart :chart-data="graph_data"
                 :options="graph_options">
             </Radar-Chart>
@@ -76,10 +76,10 @@
                         label: 'times studied',
                         data: this.getTimesPlayed(),
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(22,137,211,0.2)',
                         ],
                         borderColor: [
-                            'rgba(255, 99, 132, 1)',
+                            'rgba(53,53,148,1)',
                         ],
                         borderWidth: 1
                     }]
@@ -97,7 +97,7 @@
                 if(this.categories_data.length > 0){
                     this.max = this.categories_data.reduce((m,x)=> m.count>x.count ? m:x);
                     this.min = this.categories_data.reduce((m,x)=> m.count<x.count ? m:x);
-                    this.avg = category_times_count.reduce((a, b) => a + b, 0) / category_times_count.length;
+                    this.avg = (category_times_count.reduce((a, b) => a + b, 0) / category_times_count.length).toFixed(2);
                 }
 
                 return category_times_count;

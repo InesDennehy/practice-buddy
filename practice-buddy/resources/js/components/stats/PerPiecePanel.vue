@@ -4,9 +4,9 @@
             <h3 class="card-title m-0 font-weight-light">Times Studied per piece</h3>
         </div>
         <div class="card-body">
-            <h4>Max: {{max.count}} ({{max.piece}})</h4>
-            <h4>Min: {{min.count}} ({{min.piece}})</h4>
-            <h4>Avg: {{avg}}</h4>
+            <h5>Max: {{max.count}} ({{max.piece}})</h5>
+            <h5>Min: {{min.count}} ({{min.piece}})</h5>
+            <h5 style="margin-bottom: 30px">Avg: {{avg}}</h5>
             <div id="carouselExampleControls"
                 class="carousel slide"
                 data-ride="carousel"
@@ -94,10 +94,10 @@
                         label: 'times studied',
                         data: this.getTimesPlayed(),
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(22,137,211,0.2)',
                         ],
                         borderColor: [
-                            'rgba(255, 99, 132, 1)',
+                            'rgba(53,53,148,1)',
                         ],
                         borderWidth: 1
                     }]
@@ -116,7 +116,7 @@
                 if(this.all_pieces.length > 0){
                     this.max = this.all_pieces.reduce((m,x)=> m.count>x.count ? m:x);
                     this.min = this.all_pieces.reduce((m,x)=> m.count<x.count ? m:x);
-                    this.avg = piece_times_count.reduce((a, b) => a + b, 0) / piece_times_count.length;
+                    this.avg = (piece_times_count.reduce((a, b) => a + b, 0) / piece_times_count.length).toFixed(2);
                 }
 
                 return piece_times_count;

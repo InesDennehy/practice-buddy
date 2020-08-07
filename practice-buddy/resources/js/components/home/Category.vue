@@ -8,7 +8,7 @@
 
                         <div class="dropdown">
                             <button
-                                class="btn btn-outline-danger float-right"
+                                class="btn btn-primary float-right"
                                 type="button" id="dropdownMenuButton" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">Delete</button>
 
@@ -25,7 +25,7 @@
                         <div v-for="(piece, index) in pieces" :key="index">
                             <piece :piece="piece" @remove="removePiece(index)" @changeSessionStatus="changeSessionStatus"></piece>
                         </div>
-                        <button class="btn btn-outline-secondary add-piece-btn" v-if=!isChanging v-on:click="startChange">Add piece +</button>
+                        <button class="btn btn-outline-primary add-piece-btn" v-if=!isChanging v-on:click="startChange">Add piece +</button>
                         <input  maxlength="255" v-if=isChanging autofocus
                             v-on:keyup.enter="addSubmit"
                             v-on:keyup.esc="stopChange"

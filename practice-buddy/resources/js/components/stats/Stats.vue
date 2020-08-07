@@ -17,8 +17,8 @@
                 <per-time-panel v-bind:time_range="days"
                     v-bind:max_pieces="pieces_data.length"
                     v-bind:data="data"
-                    @changeLeft="changeDataLeft()"
-                    @changeRight="changeDataRight()"></per-time-panel>
+                    @change-left="changeDataLeft()"
+                    @change-right="changeDataRight()"></per-time-panel>
 
                 <per-category-panel v-bind:data="data"
                     v-bind:categories="all_categories"></per-category-panel>

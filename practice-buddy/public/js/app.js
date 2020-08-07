@@ -2223,8 +2223,8 @@ __webpack_require__.r(__webpack_exports__);
         datasets: [{
           label: 'times studied',
           data: this.getTimesPlayed(),
-          backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-          borderColor: ['rgba(255, 99, 132, 1)'],
+          backgroundColor: ['rgba(22,137,211,0.2)'],
+          borderColor: ['rgba(53,53,148,1)'],
           borderWidth: 1
         }]
       };
@@ -2254,9 +2254,9 @@ __webpack_require__.r(__webpack_exports__);
         this.min = this.categories_data.reduce(function (m, x) {
           return m.count < x.count ? m : x;
         });
-        this.avg = category_times_count.reduce(function (a, b) {
+        this.avg = (category_times_count.reduce(function (a, b) {
           return a + b;
-        }, 0) / category_times_count.length;
+        }, 0) / category_times_count.length).toFixed(2);
       }
 
       return category_times_count;
@@ -2388,8 +2388,8 @@ __webpack_require__.r(__webpack_exports__);
         datasets: [{
           label: 'times studied',
           data: this.getTimesPlayed(),
-          backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-          borderColor: ['rgba(255, 99, 132, 1)'],
+          backgroundColor: ['rgba(22,137,211,0.2)'],
+          borderColor: ['rgba(53,53,148,1)'],
           borderWidth: 1
         }]
       };
@@ -2419,9 +2419,9 @@ __webpack_require__.r(__webpack_exports__);
         this.min = this.all_pieces.reduce(function (m, x) {
           return m.count < x.count ? m : x;
         });
-        this.avg = piece_times_count.reduce(function (a, b) {
+        this.avg = (piece_times_count.reduce(function (a, b) {
           return a + b;
-        }, 0) / piece_times_count.length;
+        }, 0) / piece_times_count.length).toFixed(2);
       }
 
       return piece_times_count;
@@ -2560,9 +2560,9 @@ __webpack_require__.r(__webpack_exports__);
         this.min = this.days_data.reduce(function (m, x) {
           return m.count < x.count ? m : x;
         });
-        this.avg = data_days_count.reduce(function (a, b) {
+        this.avg = (data_days_count.reduce(function (a, b) {
           return a + b;
-        }, 0) / data_days_count.length;
+        }, 0) / data_days_count.length).toFixed(2);
       }
 
       this.graph_data = {
@@ -2570,8 +2570,8 @@ __webpack_require__.r(__webpack_exports__);
         datasets: [{
           label: 'number of pieces studied',
           data: data_days_count,
-          backgroundColor: ['rgba(255, 99, 132, 0.2)'],
-          borderColor: ['rgba(255, 99, 132, 1)'],
+          backgroundColor: ['rgba(22,137,211,0.2)'],
+          borderColor: ['rgba(53,53,148,1)'],
           borderWidth: 1
         }]
       };
@@ -72386,7 +72386,7 @@ var render = function() {
       "nav",
       {
         staticClass:
-          "navbar navbar-expand-md navbar-dark bg-dark navbar-laravel sticky-top"
+          "navbar navbar-expand-md navbar-dark bg-dark navbar-laravel sticky-top custom-navbar"
       },
       [
         _c("div", { staticClass: "container" }, [
@@ -72581,7 +72581,7 @@ var render = function() {
                 _c(
                   "button",
                   {
-                    staticClass: "btn btn-outline-danger float-right",
+                    staticClass: "btn btn-primary float-right",
                     attrs: {
                       type: "button",
                       id: "dropdownMenuButton",
@@ -72645,7 +72645,7 @@ var render = function() {
                 ? _c(
                     "button",
                     {
-                      staticClass: "btn btn-outline-secondary add-piece-btn",
+                      staticClass: "btn btn-outline-primary add-piece-btn",
                       on: { click: _vm.startChange }
                     },
                     [_vm._v("Add piece +")]
@@ -72762,7 +72762,7 @@ var render = function() {
             ? _c(
                 "button",
                 {
-                  staticClass: "btn btn-secondary",
+                  staticClass: "btn btn-primary",
                   on: { click: _vm.startChange }
                 },
                 [_vm._v("Add new Category +")]
@@ -72971,7 +72971,7 @@ var render = function() {
       "div",
       { staticClass: "card-body" },
       [
-        _c("h4", [
+        _c("h5", [
           _vm._v(
             "Max: " +
               _vm._s(_vm.max.count) +
@@ -72981,7 +72981,7 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("h4", [
+        _c("h5", [
           _vm._v(
             "Min: " +
               _vm._s(_vm.min.count) +
@@ -72991,7 +72991,9 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _c("h4", [_vm._v("Avg: " + _vm._s(_vm.avg))]),
+        _c("h5", { staticStyle: { "margin-bottom": "30px" } }, [
+          _vm._v("Avg: " + _vm._s(_vm.avg))
+        ]),
         _vm._v(" "),
         _c("Radar-Chart", {
           attrs: { "chart-data": _vm.graph_data, options: _vm.graph_options }
@@ -73045,19 +73047,21 @@ var render = function() {
       "div",
       { staticClass: "card-body" },
       [
-        _c("h4", [
+        _c("h5", [
           _vm._v(
             "Max: " + _vm._s(_vm.max.count) + " (" + _vm._s(_vm.max.piece) + ")"
           )
         ]),
         _vm._v(" "),
-        _c("h4", [
+        _c("h5", [
           _vm._v(
             "Min: " + _vm._s(_vm.min.count) + " (" + _vm._s(_vm.min.piece) + ")"
           )
         ]),
         _vm._v(" "),
-        _c("h4", [_vm._v("Avg: " + _vm._s(_vm.avg))]),
+        _c("h5", { staticStyle: { "margin-bottom": "30px" } }, [
+          _vm._v("Avg: " + _vm._s(_vm.avg))
+        ]),
         _vm._v(" "),
         _c(
           "div",
@@ -73192,19 +73196,21 @@ var render = function() {
     _vm._m(0),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
-      _c("h4", [
+      _c("h5", [
         _vm._v(
           "Max: " + _vm._s(_vm.max.count) + " (" + _vm._s(_vm.max.date) + ")"
         )
       ]),
       _vm._v(" "),
-      _c("h4", [
+      _c("h5", [
         _vm._v(
           "Min: " + _vm._s(_vm.min.count) + " (" + _vm._s(_vm.min.date) + ")"
         )
       ]),
       _vm._v(" "),
-      _c("h4", [_vm._v("Avg: " + _vm._s(_vm.avg))]),
+      _c("h5", { staticStyle: { "margin-bottom": "30px" } }, [
+        _vm._v("Avg: " + _vm._s(_vm.avg))
+      ]),
       _vm._v(" "),
       _c("div", [
         _c("span", [
@@ -73220,7 +73226,7 @@ var render = function() {
               },
               on: {
                 click: function($event) {
-                  return _vm.$emit("changeLeft")
+                  return _vm.$emit("change-left")
                 }
               }
             },
@@ -73262,7 +73268,7 @@ var render = function() {
               },
               on: {
                 click: function($event) {
-                  return _vm.$emit("changeRight")
+                  return _vm.$emit("change-right")
                 }
               }
             },
@@ -73335,10 +73341,10 @@ var render = function() {
                   data: _vm.data
                 },
                 on: {
-                  changeLeft: function($event) {
+                  "change-left": function($event) {
                     return _vm.changeDataLeft()
                   },
-                  changeRight: function($event) {
+                  "change-right": function($event) {
                     return _vm.changeDataRight()
                   }
                 }

@@ -5,6 +5,7 @@ var filesToCache = [
     '/css/general.css',
     '/css/pieces.css',
     '/css/categories.css',
+    '/css/welcome.css',
     '/js/app.js',
     '/images/icons/icon-72x72.png',
     '/images/icons/icon-96x96.png',

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-laravel sticky-top">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark navbar-laravel sticky-top custom-navbar">
             <div class="container">
                 <a class="navbar-brand" href="/home">
                     <img src="/images/icons/icon-128x128.png" style="width:35px; height:35px" alt="logo">

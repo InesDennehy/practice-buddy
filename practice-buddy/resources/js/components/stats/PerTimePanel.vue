@@ -4,12 +4,12 @@
             <h3 class="card-title m-0 font-weight-light">Pieces studied per day</h3>
         </div>
         <div class="card-body">
-            <h4>Max: {{max.count}} ({{max.date}})</h4>
-            <h4>Min: {{min.count}} ({{min.date}})</h4>
-            <h4>Avg: {{avg}}</h4>
+            <h5>Max: {{max.count}} ({{max.date}})</h5>
+            <h5>Min: {{min.count}} ({{min.date}})</h5>
+            <h5 style="margin-bottom: 30px">Avg: {{avg}}</h5>
             <div>
                 <span>
-                    <a class="carousel-control-prev" style="top:180px;" @click="$emit('changeLeft')" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <a class="carousel-control-prev" style="top:180px;" @click="$emit('change-left')" href="#carouselExampleControls" role="button" data-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                         <span class="sr-only">Previous</span>
                     </a>
@@ -20,7 +20,7 @@
                     </Line-Chart>
                 </span>
                 <span>
-                    <a class="carousel-control-next" style="top:180px;" @click="$emit('changeRight')" href="#carouselExampleControls" role="button" data-slide="next">
+                    <a class="carousel-control-next" style="top:180px;" @click="$emit('change-right')" href="#carouselExampleControls" role="button" data-slide="next">
                         <span class="carousel-control-next-icon" aria-hidden="true"></span>
                         <span class="sr-only">Next</span>
                     </a>
@@ -86,7 +86,7 @@
                 if(this.days_data.length > 0){
                     this.max = this.days_data.reduce((m,x)=> m.count>x.count ? m:x);
                     this.min = this.days_data.reduce((m,x)=> m.count<x.count ? m:x);
-                    this.avg = data_days_count.reduce((a, b) => a + b, 0) / data_days_count.length;
+                    this.avg = (data_days_count.reduce((a, b) => a + b, 0) / data_days_count.length).toFixed(2);
                 }
 
                 this.graph_data = {
@@ -95,10 +95,10 @@
                         label: 'number of pieces studied',
                         data: data_days_count,
                         backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(22,137,211,0.2)',
                         ],
                         borderColor: [
-                            'rgba(255, 99, 132, 1)',
+                            'rgba(53,53,148,1)',
                         ],
                         borderWidth: 1
                     }]
