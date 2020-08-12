@@ -8,6 +8,6 @@
 @endsection
 
 @section('styles')
-    <link href="{{asset('css/pieces.css')}}" rel="stylesheet">
-    <link href="{{asset('css/categories.css')}}" rel="stylesheet">
+    <link href="{{asset('css/pieces.css', true)}}" rel="stylesheet">
+    <link href="{{asset('css/categories.css', true)}}" rel="stylesheet">
 @endsection

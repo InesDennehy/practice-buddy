@@ -15,15 +15,15 @@
 
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{asset('css/general.css')}}" rel="stylesheet">
-    <link href="{{ asset('css/welcome.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css', true) }}" rel="stylesheet">
+    <link href="{{asset('css/general.css', true)}}" rel="stylesheet">
+    <link href="{{ asset('css/welcome.css', true) }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
         <div class="top-panel my-auto h-100 w-100 d-table">
             <div class="d-table-cell align-middle text-center">
-                <div style="margin-bottom: 30px"><img alt="logo" src="{{asset('images/icons/icon-152x152.png')}}"></div>
+                <div style="margin-bottom: 30px"><img alt="logo" src="{{asset('images/icons/icon-152x152.png', true)}}"></div>
                 <h1 class="display-3 text-center title">Welcome to Practice Buddy</h1>
                 <h2 class="text-center">The practice tracker everyone needs</h2>
                 <div class="py-4">
@@ -51,7 +51,7 @@
 
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/app.js', true) }}"></script>
 
 </body>
 </html>
