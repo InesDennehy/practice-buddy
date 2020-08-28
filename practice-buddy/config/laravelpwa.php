@@ -7,7 +7,7 @@ return [
         'short_name' => 'PBuddy',
         'start_url' => '/',
         'background_color' => '#f2f2f2',
-        'theme_color' => '#555555',
+        'theme_color' => '#0a3165',
         'display' => 'standalone',
         'orientation'=> 'any',
         'icons' => [

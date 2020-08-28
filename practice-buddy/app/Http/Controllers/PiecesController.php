@@ -45,7 +45,6 @@ class PiecesController extends Controller
             $piece = Piece::create([
                 'category_id' => $category->id,
                 'name' => request('piece_name'),
-                'note' => "",
             ]);
 
             return response()->json(['status' => 'OK', 'piece' => $piece]);

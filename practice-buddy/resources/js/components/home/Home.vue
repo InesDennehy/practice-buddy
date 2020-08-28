@@ -7,8 +7,8 @@
             <div class="col-md-8 text-center">
                 <button class="btn btn-primary" v-if="!isChanging" v-on:click="startChange">Add new Category +</button>
                 <div v-if="isChanging">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card category">
+                        <div class="card-header category-header">
                             <input maxlength="255" v-if=isChanging autofocus
                                 v-on:keyup.enter="addSubmit"
                                 v-on:keyup.esc="stopChange"
