@@ -1,0 +1,34 @@
+.category-name{
+    width: 80%
+}
+
+.category-header{
+    background-color: #1881cf;
+    color: #f2f2f2;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+.category{
+    margin-bottom: 30px;
+}
+
+.add-piece-btn{
+    margin-top: 10px;
+}
+
+.input_error{
+    border-width: 2px;
+    border-color: #d9534f;
+    border-radius: 5px;
+    border-style: solid;
+}
+
+.btn-primary:hover{
+    background-color: #146ab1;
+}

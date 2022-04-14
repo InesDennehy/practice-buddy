@@ -1,0 +1,50 @@
+.x-btn{
+    background-color: darkgrey;
+    color: white;
+    border-radius: 50%;
+    border: none;
+    align-self: right;
+    width: auto;
+    height: auto;
+    font-size: x-small;
+    line-height: auto;
+    margin: auto;
+    margin-right: 0px;
+}
+.x-btn:hover{
+    background-color: grey;
+}
+
+.piece-name{
+    width: 90%;
+}
+
+.piece{
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+.active{
+    background-color: #eeeeee;
+}
+
+.done-checkbox{
+    border: none;
+    width: auto;
+    height: auto;
+    line-height: auto;
+    margin: auto;
+    margin-right: 5px;
+}
+
+.crossedout{
+    text-decoration: line-through;
+    color: grey;
+}
